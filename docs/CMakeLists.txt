@@ -14,3 +14,28 @@
 # limitations under the License.
 #
 
+find_package(Doxygen REQUIRED)
+
+set(DOXYGEN_USE_MDFILE_AS_MAINPAGE ${PROJECT_SOURCE_DIR}/README.md)
+set(DOXYGEN_RECURSIVE              NO)
+set(DOXYGEN_OUTPUT_LANGUAGE        Chinese)
+set(DOXYGEN_OUTPUT_DIRECTORY       docs_cn)
+doxygen_add_docs(docs_cn
+    ${PROJECT_SOURCE_DIR}/README.md
+    ${PROJECT_SOURCE_DIR}/README_EN.md
+    ${PROJECT_SOURCE_DIR}/include/opengeminicpp
+    ALL
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/include
+)
+
+set(DOXYGEN_USE_MDFILE_AS_MAINPAGE ${PROJECT_SOURCE_DIR}/README_EN.md)
+set(DOXYGEN_RECURSIVE              NO)
+set(DOXYGEN_OUTPUT_LANGUAGE        English)
+set(DOXYGEN_OUTPUT_DIRECTORY       docs_en)
+doxygen_add_docs(docs_en
+    ${PROJECT_SOURCE_DIR}/README.md
+    ${PROJECT_SOURCE_DIR}/README_EN.md
+    ${PROJECT_SOURCE_DIR}/include/opengeminicpp
+    ALL
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/include
+)
