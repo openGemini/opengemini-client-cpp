@@ -57,3 +57,46 @@ set_target_properties(Client
         DEBUG_POSTFIX d
 )
 
+message(STATUS "Generating install target")
+include(GNUInstallDirs)
+
+install(
+    TARGETS                   Client
+    EXPORT                    ${PROJECT_NAME}Targets
+    LIBRARY DESTINATION       ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION       ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    INCLUDES DESTINATION      ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+set(OPENGEMINICPP_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+install(
+    EXPORT      ${PROJECT_NAME}Targets
+    DESTINATION ${OPENGEMINICPP_INSTALL_CMAKEDIR}
+    NAMESPACE   ${PROJECT_NAME}::
+)
+
+install(
+    DIRECTORY   opengeminicpp
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    VERSION       ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion
+)
+
+configure_package_config_file(
+    ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    INSTALL_DESTINATION ${OPENGEMINICPP_INSTALL_CMAKEDIR}
+)
+
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    DESTINATION ${OPENGEMINICPP_INSTALL_CMAKEDIR}        
+)
