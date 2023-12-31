@@ -14,3 +14,27 @@
 # limitations under the License.
 #
 
+include(FetchContent)
+message(STATUS "Finding GoogleTest package first before trying to download and build it from source")
+FetchContent_Declare(googletest
+    GIT_REPOSITORY https://github.com/google/googletest
+    GIT_TAG        v1.14.0
+    GIT_PROGRESS   TRUE
+    FIND_PACKAGE_ARGS
+        NAMES GTest
+)
+FetchContent_MakeAvailable(googletest)
+
+add_executable(UnitTest
+    Import_Test.cpp
+)
+add_executable(${PROJECT_NAME}::UnitTest ALIAS UnitTest)
+
+target_link_libraries(UnitTest
+    PRIVATE
+        ${PROJECT_NAME}::Client
+        GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(UnitTest)
