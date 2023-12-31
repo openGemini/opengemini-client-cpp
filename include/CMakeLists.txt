@@ -14,3 +14,46 @@
 # limitations under the License.
 #
 
+if(OPENGEMINICPP_BUILD_HEADER_ONLY_LIBS)
+    message(STATUS "Generating header-only libraries")
+
+    add_library(Client INTERFACE)
+    target_include_directories(Client
+        INTERFACE
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include>
+    )
+    target_link_libraries(Client
+        INTERFACE
+            Boost::headers
+    )
+else()
+    set(BUILD_SHARED_LIBS ${OPENGEMINICPP_BUILD_SHARED_LIBS})
+    if(BUILD_SHARED_LIBS)
+        message(STATUS "Generating shared libraries")
+    else()
+        message(STATUS "Generating static libraries")
+    endif()
+
+    add_library(Client
+        opengeminicpp/impl/client.cpp
+    )
+    target_compile_definitions(Client PUBLIC OPENGEMINICPP_SEPERATE_COMPILATION)
+    target_include_directories(Client
+        PUBLIC
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include>
+    )
+    target_link_libraries(Client
+        PRIVATE
+            Boost::headers
+    )
+endif()
+
+add_library(${PROJECT_NAME}::Client ALIAS Client)
+set_target_properties(Client
+    PROPERTIES
+        OUTPUT_NAME ${PROJECT_NAME}
+        DEBUG_POSTFIX d
+)
+
