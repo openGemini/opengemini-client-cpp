@@ -21,9 +21,8 @@
 
 namespace opengeminicpp {
 
-class Client::ClientImpl {
-};
+class Client::ClientImpl { };
 
-} // namespace opengeminicpp::impl
+} // namespace opengeminicpp
 
 #endif // OPENGEMINICPP_IMPL_CLIENT_HPP

@@ -31,10 +31,10 @@ private:
     std::unique_ptr<ClientImpl> impl;
 };
 
-}  // namespace opengeminicpp
+} // namespace opengeminicpp
 
 #ifndef OPENGEMINICPP_SEPERATE_COMPILATION
-#include "opengeminicpp/impl/client.cpp"
-#endif  // !OPENGEMINICPP_SEPERATE_COMPILATION
+#    include "opengeminicpp/impl/client.cpp"
+#endif // !OPENGEMINICPP_SEPERATE_COMPILATION
 
-#endif  // OPENGEMINICPP_CLIENT_HPP
+#endif // OPENGEMINICPP_CLIENT_HPP

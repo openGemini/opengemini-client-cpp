@@ -18,7 +18,7 @@
 
 namespace opengeminicpp {
 
-Client::Client() : impl(std::make_unique<Client::ClientImpl>()) {}
+Client::Client() : impl(std::make_unique<Client::ClientImpl>()) { }
 Client::~Client() = default;
 
-}  // namespace opengeminicpp
+} // namespace opengeminicpp
