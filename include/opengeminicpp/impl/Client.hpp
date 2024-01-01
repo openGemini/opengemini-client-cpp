@@ -1,5 +1,5 @@
 //
-// Copyright 2023 Huawei Cloud Computing Technologies Co., Ltd.
+// Copyright 2024 Huawei Cloud Computing Technologies Co., Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,11 +14,15 @@
 // limitations under the License.
 //
 
-#include "opengeminicpp/impl/client.hpp"
+#ifndef OPENGEMINICPP_IMPL_CLIENT_HPP
+#define OPENGEMINICPP_IMPL_CLIENT_HPP
+
+#include "opengeminicpp/Client.hpp"
 
 namespace opengeminicpp {
 
-Client::Client() : impl(std::make_unique<Client::ClientImpl>()) { }
-Client::~Client() = default;
+class Client::ClientImpl { };
 
 } // namespace opengeminicpp
+
+#endif // OPENGEMINICPP_IMPL_CLIENT_HPP
