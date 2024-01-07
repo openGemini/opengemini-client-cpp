@@ -1,13 +1,45 @@
-# filesystem
-.DS_Store
-
-# ide
-**/.idea
-
-# cmake
-cmake-build-debug
-CMakeFiles/**
+# CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
 cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
 
-# binary
+# Compiled object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# IDE
+/cmake-build-*/
+/.idea/
+/.vs/
+/.cache/
+/.vscode/
+/build/
+
+# Executables
+*.exe
 *.out
+*.app
+
+# Custom attributes file for macOS
+.DS_Store
