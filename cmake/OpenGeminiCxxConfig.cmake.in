@@ -14,5 +14,20 @@
 # limitations under the License.
 #
 
-add_subdirectory(util)
-add_subdirectory(unit)
+@PACKAGE_INIT@
+
+set(OPENGEMINI_ENABLE_SSL_SUPPORT @OPENGEMINI_ENABLE_SSL_SUPPORT@)
+
+include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
+
+include(CMakeFindDependencyMacro)
+find_dependency(Boost REQUIRED)
+find_dependency(fmt REQUIRED)
+
+if(OPENGEMINI_ENABLE_SSL_SUPPORT)
+    find_dependency(OpenSSL REQUIRED)
+endif()
+
+check_required_components(
+    "Client"
+)

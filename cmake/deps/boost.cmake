@@ -14,19 +14,17 @@
 # limitations under the License.
 #
 
-@PACKAGE_INIT@
+include_guard()
+include(FetchContent)
 
-set(OPENGEMINICPP_ENABLE_SSL_SUPPORT @OPENGEMINICPP_ENABLE_SSL_SUPPORT@)
+message(STATUS "Finding Boost package first before trying to download and build it from source")
 
-include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
-
-include(CMakeFindDependencyMacro)
-find_dependency(Boost REQUIRED)
-
-if(OPENGEMINICPP_ENABLE_SSL_SUPPORT)
-    find_dependency(OpenSSL REQUIRED)
-endif()
-
-check_required_components(
-    "Client"
+FetchContent_Declare(Boost
+    GIT_REPOSITORY https://github.com/boostorg/boost
+    GIT_TAG        boost-1.84.0
+    GIT_PROGRESS   TRUE
+    FIND_PACKAGE_ARGS
+        1.81
+        COMPONENTS coroutine url
 )
+FetchContent_MakeAvailable(Boost)

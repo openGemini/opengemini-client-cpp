@@ -14,40 +14,33 @@
 # limitations under the License.
 #
 
-if(OPENGEMINICPP_BUILD_HEADER_ONLY_LIBS)
-    message(STATUS "Generating header-only libraries")
-
-    add_library(Client INTERFACE)
-    target_include_directories(Client
-        INTERFACE
+macro(opengemini_target_setting TARGET_NAME TARGET_SCOPE)
+    target_compile_definitions(${TARGET_NAME} ${TARGET_SCOPE} ${OPENGEMINI_COMPILE_DEFINITIONS})
+    target_include_directories(${TARGET_NAME}
+        ${TARGET_SCOPE}
             $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
             $<INSTALL_INTERFACE:include>
     )
-    target_link_libraries(Client
-        INTERFACE
+    target_link_libraries(${TARGET_NAME}
+        ${TARGET_SCOPE}
             Boost::headers
     )
-else()
-    set(BUILD_SHARED_LIBS ${OPENGEMINICPP_BUILD_SHARED_LIBS})
-    if(BUILD_SHARED_LIBS)
-        message(STATUS "Generating shared libraries")
-    else()
-        message(STATUS "Generating static libraries")
+    if(OPENGEMINI_ENABLE_SSL_SUPPORT)
+        target_link_libraries(${TARGET_NAME}
+            ${TARGET_SCOPE}
+                OpenSSL::SSL
+        )
     endif()
+endmacro()
 
+if(OPENGEMINI_BUILD_HEADER_ONLY_LIBS)
+    add_library(Client INTERFACE)
+    opengemini_target_setting(Client INTERFACE)
+else()
     add_library(Client
-        opengeminicpp/impl/Client.cpp
+        opengemini/impl/ClientImpl.cpp
     )
-    target_compile_definitions(Client PUBLIC OPENGEMINICPP_SEPERATE_COMPILATION)
-    target_include_directories(Client
-        PUBLIC
-            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-            $<INSTALL_INTERFACE:include>
-    )
-    target_link_libraries(Client
-        PRIVATE
-            Boost::headers
-    )
+    opengemini_target_setting(Client PUBLIC)
 endif()
 
 add_library(${PROJECT_NAME}::Client ALIAS Client)
@@ -69,15 +62,15 @@ install(
     INCLUDES DESTINATION      ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
-set(OPENGEMINICPP_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
+set(OPENGEMINI_INSTALL_CMAKEDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 install(
     EXPORT      ${PROJECT_NAME}Targets
-    DESTINATION ${OPENGEMINICPP_INSTALL_CMAKEDIR}
+    DESTINATION ${OPENGEMINI_INSTALL_CMAKEDIR}
     NAMESPACE   ${PROJECT_NAME}::
 )
 
 install(
-    DIRECTORY   opengeminicpp
+    DIRECTORY   opengemini
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
@@ -91,12 +84,12 @@ write_basic_package_version_file(
 configure_package_config_file(
     ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-    INSTALL_DESTINATION ${OPENGEMINICPP_INSTALL_CMAKEDIR}
+    INSTALL_DESTINATION ${OPENGEMINI_INSTALL_CMAKEDIR}
 )
 
 install(
     FILES
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-    DESTINATION ${OPENGEMINICPP_INSTALL_CMAKEDIR}        
+    DESTINATION ${OPENGEMINI_INSTALL_CMAKEDIR}        
 )
