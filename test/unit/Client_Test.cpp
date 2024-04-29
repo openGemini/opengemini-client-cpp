@@ -14,11 +14,16 @@
 // limitations under the License.
 //
 
-#include "opengeminicpp/impl/Client.hpp"
+#include <gtest/gtest.h>
 
-namespace opengeminicpp {
+#include "opengemini/Client.hpp"
 
-Client::Client() : impl(std::make_unique<Client::ClientImpl>()) { }
-Client::~Client() = default;
+namespace opengemini::test {
 
-} // namespace opengeminicpp
+TEST(ClientTest, SimpleDeclaration)
+{
+    [[maybe_unused]] Client client{};
+    SUCCEED();
+}
+
+} // namespace opengemini::test

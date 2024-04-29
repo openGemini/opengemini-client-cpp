@@ -14,12 +14,13 @@
 // limitations under the License.
 //
 
-#include <gtest/gtest.h>
+#include "opengemini/impl/ClientImpl.hpp"
 
-#include "opengeminicpp/Client.hpp"
+#include "opengemini/impl/util/Preprocessor.hpp"
 
-TEST(ImportTest, TestSimpleDeclaration)
-{
-    [[maybe_unused]] opengeminicpp::Client client;
-    SUCCEED();
-}
+namespace opengemini::impl {
+
+OPENGEMINI_INLINE_SPECIFIER
+ClientImpl::ClientImpl() { }
+
+} // namespace opengemini::impl

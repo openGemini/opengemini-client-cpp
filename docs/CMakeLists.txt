@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-find_package(Doxygen REQUIRED)
+include(${PROJECT_SOURCE_DIR}/cmake/deps/doxygen.cmake)
 
 set(DOXYGEN_USE_MDFILE_AS_MAINPAGE ${PROJECT_SOURCE_DIR}/README.md)
 set(DOXYGEN_RECURSIVE              NO)
@@ -23,7 +23,7 @@ set(DOXYGEN_OUTPUT_DIRECTORY       docs_cn)
 doxygen_add_docs(docs_cn
     ${PROJECT_SOURCE_DIR}/README.md
     ${PROJECT_SOURCE_DIR}/README_EN.md
-    ${PROJECT_SOURCE_DIR}/include/opengeminicpp
+    ${PROJECT_SOURCE_DIR}/include/opengemini
     ALL
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/include
 )
@@ -35,7 +35,7 @@ set(DOXYGEN_OUTPUT_DIRECTORY       docs_en)
 doxygen_add_docs(docs_en
     ${PROJECT_SOURCE_DIR}/README.md
     ${PROJECT_SOURCE_DIR}/README_EN.md
-    ${PROJECT_SOURCE_DIR}/include/opengeminicpp
+    ${PROJECT_SOURCE_DIR}/include/opengemini
     ALL
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/include
 )

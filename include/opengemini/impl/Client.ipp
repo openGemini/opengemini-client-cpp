@@ -14,15 +14,24 @@
 // limitations under the License.
 //
 
-#ifndef OPENGEMINICPP_IMPL_CLIENT_HPP
-#define OPENGEMINICPP_IMPL_CLIENT_HPP
+#include "opengemini/Client.hpp"
 
-#include "opengeminicpp/Client.hpp"
+#include <cassert>
 
-namespace opengeminicpp {
+#include "opengemini/impl/ClientImpl.hpp"
 
-class Client::ClientImpl { };
+namespace opengemini {
 
-} // namespace opengeminicpp
+inline Client::Client() : impl_(std::make_unique<impl::ClientImpl>()) { }
 
-#endif // OPENGEMINICPP_IMPL_CLIENT_HPP
+inline Client::Client(Client&& client) noexcept : impl_(std::move(client.impl_))
+{ }
+
+inline Client& Client::operator=(Client&& client) noexcept
+{
+    assert(this != &client);
+    impl_ = std::move(client.impl_);
+    return *this;
+}
+
+} // namespace opengemini

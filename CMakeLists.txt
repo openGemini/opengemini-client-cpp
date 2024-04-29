@@ -16,7 +16,7 @@
 
 cmake_minimum_required(VERSION 3.24)
 
-project(OpenGeminiCpp
+project(OpenGeminiCxx
     VERSION      0.1.0
     DESCRIPTION  "OpenGemini Client SDK For C++"
     HOMEPAGE_URL "https://github.com/openGemini/opengemini-client-cpp"
@@ -28,44 +28,51 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS        OFF)
 set(FETCHCONTENT_QUIET          OFF)
 
-option(OPENGEMINICPP_BUILD_SHARED_LIBS      "Build shared libraries instead of static ones. \
-Only has effect if option OPENGEMINICPP_BUILD_HEADER_ONLY_LIBS is OFF"                                OFF)
-option(OPENGEMINICPP_BUILD_HEADER_ONLY_LIBS "Build header-only libraries"                             OFF)
-option(OPENGEMINICPP_ENABLE_BUILD_TESTING   "Build unit tests (GoogleTest required)"                  OFF)
-option(OPENGEMINICPP_ENABLE_BUILD_EXAMPLE   "Build examples"                                          OFF)
-option(OPENGEMINICPP_BUILD_DOCUMENTATION    "Build API documentation (Doxygen required)"              OFF)
-option(OPENGEMINICPP_ENABLE_SSL_SUPPORT     "Enable OpenSSL support for using TLS (OpenSSL required)" OFF)
+set(OPENGEMINI_COMPILE_DEFINITIONS "")
 
-message(STATUS "Finding Boost package first before trying to download and build it from source")
-include(FetchContent)
-FetchContent_Declare(Boost
-    GIT_REPOSITORY https://github.com/boostorg/boost
-    GIT_TAG        boost-1.84.0
-    GIT_PROGRESS   TRUE
-    FIND_PACKAGE_ARGS
-)
-FetchContent_MakeAvailable(Boost)
+option(OPENGEMINI_BUILD_SHARED_LIBS      "Build shared libraries instead of static ones. \
+Only has effect if option OPENGEMINI_BUILD_HEADER_ONLY_LIBS is OFF"                                OFF)
+option(OPENGEMINI_BUILD_HEADER_ONLY_LIBS "Build header-only libraries"                             OFF)
+option(OPENGEMINI_BUILD_TESTING          "Build unit tests (GoogleTest required)"                  OFF)
+option(OPENGEMINI_BUILD_EXAMPLE          "Build examples"                                          OFF)
+option(OPENGEMINI_BUILD_DOCUMENTATION    "Build API documentation (Doxygen required)"              OFF)
+option(OPENGEMINI_ENABLE_SSL_SUPPORT     "Enable OpenSSL support for using TLS (OpenSSL required)" OFF)
 
-if(OPENGEMINICPP_ENABLE_SSL_SUPPORT)
-    message(STATUS "Finding OpenSSL package")
-    find_package(OpenSSL REQUIRED)
+include(${PROJECT_SOURCE_DIR}/cmake/deps/boost.cmake)
+
+if(OPENGEMINI_ENABLE_SSL_SUPPORT)
+    include(${PROJECT_SOURCE_DIR}/cmake/deps/openssl.cmake)
+    list(APPEND OPENGEMINI_COMPILE_DEFINITIONS "OPENGEMINI_ENABLE_SSL_SUPPORT")
+endif()
+
+if(OPENGEMINI_BUILD_HEADER_ONLY_LIBS)
+    message(STATUS "Will generating header-only libraries")
+else()
+    list(APPEND OPENGEMINI_COMPILE_DEFINITIONS "OPENGEMINI_SEPERATE_COMPILATION")
+
+    set(BUILD_SHARED_LIBS ${OPENGEMINI_BUILD_SHARED_LIBS})
+    if(BUILD_SHARED_LIBS)
+        message(STATUS "Will generating shared libraries")
+    else()
+        message(STATUS "Will generating static libraries")
+    endif()
 endif()
 
 message(STATUS "Generating source code")
 add_subdirectory(include)
 
-if(OPENGEMINICPP_ENABLE_BUILD_TESTING)
+if(OPENGEMINI_BUILD_TESTING)
     message(STATUS "Generating unit test")
     enable_testing()
     add_subdirectory(test)
 endif()
 
-if(OPENGEMINICPP_ENABLE_BUILD_EXAMPLE)
+if(OPENGEMINI_BUILD_EXAMPLE)
     message(STATUS "Generating examples")
     add_subdirectory(examples)
 endif()
 
-if (OPENGEMINICPP_BUILD_DOCUMENTATION)
+if (OPENGEMINI_BUILD_DOCUMENTATION)
     message(STATUS "Generating documentation")
     add_subdirectory(docs)
 endif()

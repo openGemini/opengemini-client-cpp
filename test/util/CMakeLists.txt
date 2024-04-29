@@ -14,5 +14,7 @@
 # limitations under the License.
 #
 
-add_subdirectory(util)
-add_subdirectory(unit)
+add_library(TestUtil INTERFACE)
+add_library(${PROJECT_NAME}::TestUtil ALIAS TestUtil)
+target_include_directories(TestUtil INTERFACE ${CMAKE_CURRENT_LIST_DIR})
+target_link_libraries(TestUtil INTERFACE ${PROJECT_NAME}::Client)

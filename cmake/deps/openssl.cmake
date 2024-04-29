@@ -14,5 +14,6 @@
 # limitations under the License.
 #
 
-add_subdirectory(util)
-add_subdirectory(unit)
+include_guard()
+message(STATUS "Finding OpenSSL package")
+find_package(OpenSSL REQUIRED)
