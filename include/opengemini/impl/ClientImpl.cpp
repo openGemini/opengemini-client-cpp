@@ -21,6 +21,6 @@
 namespace opengemini::impl {
 
 OPENGEMINI_INLINE_SPECIFIER
-ClientImpl::ClientImpl() { }
+ClientImpl::ClientImpl(const ClientConfig& config) { }
 
 } // namespace opengemini::impl

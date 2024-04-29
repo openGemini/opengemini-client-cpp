@@ -22,7 +22,9 @@
 
 namespace opengemini {
 
-inline Client::Client() : impl_(std::make_unique<impl::ClientImpl>()) { }
+inline Client::Client(const ClientConfig& config) :
+    impl_(std::make_unique<impl::ClientImpl>(config))
+{ }
 
 inline Client::Client(Client&& client) noexcept : impl_(std::move(client.impl_))
 { }

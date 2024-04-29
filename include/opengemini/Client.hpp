@@ -19,6 +19,8 @@
 
 #include <memory>
 
+#include "opengemini/ClientConfig.hpp"
+
 namespace opengemini {
 
 namespace impl {
@@ -34,7 +36,22 @@ class ClientImpl;
 ///
 class Client {
 public:
-    Client();
+    ///
+    /// \~English
+    /// @brief A constructor.
+    /// @details Creates a client that can be used to communicate with the
+    /// openGemini cluster.
+    /// @param config The client's configuration, which can be directly
+    /// constructed as @ref ClientConfig structure, or can be built using @ref
+    /// ClientConfigBuilder.
+    ///
+    /// \~Chinese
+    /// @brief 构造函数。
+    /// @details 创建一个能与openGemini数据库集群通讯的客户端。
+    /// @param config 客户端配置，可以直接构造该结构体 @ref ClientConfig
+    /// ，或通过 @ref ClientConfigBuilder 构建。
+    ///
+    explicit Client(const ClientConfig& config);
     ~Client() = default;
 
     Client(Client&& client) noexcept;
