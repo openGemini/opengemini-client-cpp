@@ -17,11 +17,13 @@
 #ifndef OPENGEMINI_IMPL_CLIENTIMPL_HPP
 #define OPENGEMINI_IMPL_CLIENTIMPL_HPP
 
+#include "opengemini/ClientConfig.hpp"
+
 namespace opengemini::impl {
 
 class ClientImpl {
 public:
-    ClientImpl();
+    explicit ClientImpl(const ClientConfig& config);
     ~ClientImpl() = default;
 };
 

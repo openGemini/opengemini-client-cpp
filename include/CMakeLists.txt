@@ -39,6 +39,7 @@ if(OPENGEMINI_BUILD_HEADER_ONLY_LIBS)
 else()
     add_library(Client
         opengemini/impl/ClientImpl.cpp
+        opengemini/impl/ClientConfigBuilder.cpp
     )
     opengemini_target_setting(Client PUBLIC)
 endif()

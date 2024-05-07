@@ -22,7 +22,7 @@ namespace opengemini::test {
 
 TEST(ClientTest, SimpleDeclaration)
 {
-    [[maybe_unused]] Client client{};
+    [[maybe_unused]] Client client{ {} };
     SUCCEED();
 }
 
