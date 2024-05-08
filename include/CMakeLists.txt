@@ -24,6 +24,8 @@ macro(opengemini_target_setting TARGET_NAME TARGET_SCOPE)
     target_link_libraries(${TARGET_NAME}
         ${TARGET_SCOPE}
             Boost::headers
+            Boost::coroutine
+            fmt::fmt
     )
     if(OPENGEMINI_ENABLE_SSL_SUPPORT)
         target_link_libraries(${TARGET_NAME}
@@ -40,6 +42,8 @@ else()
     add_library(Client
         opengemini/impl/ClientImpl.cpp
         opengemini/impl/ClientConfigBuilder.cpp
+        opengemini/impl/comm/Context.cpp
+        opengemini/impl/http/IHttpClient.cpp
     )
     opengemini_target_setting(Client PUBLIC)
 endif()
