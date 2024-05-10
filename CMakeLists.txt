@@ -39,6 +39,7 @@ option(OPENGEMINI_BUILD_DOCUMENTATION    "Build API documentation (Doxygen requi
 option(OPENGEMINI_ENABLE_SSL_SUPPORT     "Enable OpenSSL support for using TLS (OpenSSL required)" OFF)
 
 include(${PROJECT_SOURCE_DIR}/cmake/deps/boost.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/deps/fmt.cmake)
 
 if(OPENGEMINI_ENABLE_SSL_SUPPORT)
     include(${PROJECT_SOURCE_DIR}/cmake/deps/openssl.cmake)
