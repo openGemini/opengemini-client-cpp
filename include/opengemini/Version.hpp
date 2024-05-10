@@ -22,7 +22,7 @@
 /// \~English
 /// @brief Major version number of the library.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 库主版本号。
 ///
 #define OPENGEMINI_VERSION_MAJOR 0
@@ -31,7 +31,7 @@
 /// \~English
 /// @brief Minor version number of the library.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 库次版本号。
 ///
 #define OPENGEMINI_VERSION_MINOR 1
@@ -40,7 +40,7 @@
 /// \~English
 /// @brief Patch version number of the library.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 库修正版本号。
 ///
 #define OPENGEMINI_VERSION_PATCH 0

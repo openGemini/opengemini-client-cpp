@@ -28,7 +28,7 @@ namespace opengemini {
 /// @note The member function @ref Finalize() must be called at the end to get
 /// the configuration object.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 用于构建客户端配置的类。
 /// @details 客户端配置各字段的具体含义 @ref ClientConfig 。
 /// @note 必须在最后调用成员函数
@@ -43,7 +43,7 @@ public:
     /// \~English
     /// @brief Default constructor.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 默认构造函数。
     ///
     ClientConfigBuilder()  = default;
@@ -54,7 +54,7 @@ public:
     /// @brief Finish bulding the client configuration and return it.
     /// @return The config struct as built.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 结束构造并返回相应的配置。
     /// @return 客户端配置结构体。
     ///
@@ -66,7 +66,7 @@ public:
     /// @param address An @ref Endpoint to server.
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 增加一个服务器地址以供客户端连接。
     /// @param address 服务器端点 @ref Endpoint。
     /// @return 指向配置构造器自身的引用。
@@ -80,7 +80,7 @@ public:
     /// @param addresses A vector of @ref Endpoint.
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 增加多个服务器地址以供客户端连接。
     /// @param addresses 服务器端点 @ref Endpoint 列表。
     /// @return 指向配置构造器自身的引用。
@@ -93,7 +93,7 @@ public:
     /// @see AuthCredential
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置鉴权时使用的用户凭据。
     /// @see AuthCredential
     /// @return 指向配置构造器自身的引用。
@@ -107,7 +107,7 @@ public:
     /// @see AuthToken
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置鉴权时使用的用户令牌。
     /// @see AuthToken
     /// @return 指向配置构造器自身的引用。
@@ -120,7 +120,7 @@ public:
     /// @see BatchConfig
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置点位写入功能的批量策略。
     /// @see BatchConfig
     /// @return 指向配置构造器自身的引用。
@@ -133,7 +133,7 @@ public:
     /// @param timeout
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置客户端读写超时。
     /// @param timeout 超时值。
     /// @return 指向配置构造器自身的引用。
@@ -146,7 +146,7 @@ public:
     /// @param timeout
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置客户端连接超时。
     /// @param 超时值。
     /// @return 指向配置构造器自身的引用。
@@ -159,7 +159,7 @@ public:
     /// @param enabled
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置是否开启gzip。
     /// @param enabled
     /// @return 指向配置构造器自身的引用。
@@ -173,7 +173,7 @@ public:
     /// allow to run.
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置客户端并发参考值。
     /// @param hint 期望客户端运行的线程数。
     /// @return 指向配置构造器自身的引用。
@@ -187,7 +187,7 @@ public:
     /// @param skippped
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置是否跳过校验服务端证书。
     /// @param skipped
     /// @return 指向配置构造器自身的引用。
@@ -200,7 +200,7 @@ public:
     /// @param certificates A PEM format certificate chain.
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置客户端证书。
     /// @param certificates PEM格式的证书链。
     /// @return 指向配置构造器自身的引用。
@@ -213,7 +213,7 @@ public:
     /// @param rootCAs A certificate chain in PEM format.
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置校验服务端证书时使用的根CA。
     /// @param rootCAs PEM格式的证书链。
     /// @return 指向配置构造器自身的引用。
@@ -226,7 +226,7 @@ public:
     /// @param version
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置SSL/TLS版本。
     /// @param version 版本。
     /// @return 指向配置构造器自身的引用。
@@ -239,7 +239,7 @@ public:
     /// @param enabled
     /// @return Reference to the builder itself.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 设置是否开启SSL/TLS。
     /// @param enabled
     /// @return 指向配置构造器自身的引用。

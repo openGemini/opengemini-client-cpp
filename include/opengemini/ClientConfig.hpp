@@ -36,7 +36,7 @@ namespace opengemini {
 /// \~English
 /// @brief Holds the user credentail for authorization.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 存放鉴权使用的用户凭据。
 ///
 struct AuthCredential {
@@ -48,7 +48,7 @@ struct AuthCredential {
 /// \~English
 /// @brief Authentication token.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 鉴权令牌。
 ///
 using AuthToken = std::string;
@@ -58,7 +58,7 @@ using AuthToken = std::string;
 /// @brief Authentication configuration, which can only be either user
 /// credential or token.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 鉴权配置，只能是用户凭据或者用户令牌中的一种。
 ///
 using AuthConfig = std::variant<AuthCredential, AuthToken>;
@@ -71,7 +71,7 @@ using AuthConfig = std::variant<AuthCredential, AuthToken>;
 /// request). This structure is used to control the specific policy for
 /// batching.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 批量配置，控制写入点位时的批量策略。
 /// @detail 调用 @ref WritePoint() 时，
 /// 客户端可能不会立刻发送请求（而是等待更多调用以聚合为一次请求）。
@@ -84,7 +84,7 @@ struct BatchConfig {
     /// @details An aggregated request will be sent immediately if the timer
     /// has expired.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 触发批量请求的时间间隔。
     /// @details 若定时器到期，则立即发送一次聚合请求。
     ///
@@ -96,7 +96,7 @@ struct BatchConfig {
     /// @details A aggregated request will be sent immediately if the number of
     /// points exceeds the maximum size.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 触发批量请求的最大点位数量。
     /// @details 如果累计的点位数量超出最大值，则立即发送一次聚合请求。
     ///
@@ -109,7 +109,7 @@ struct BatchConfig {
 /// \~English
 /// @brief The version of SSL/TLS protocol.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief SSL/TLS协议版本。
 ///
 enum class TLSVersion {
@@ -125,7 +125,7 @@ enum class TLSVersion {
 /// \~English
 /// @brief The TLS configuration for client.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief 客户端TLS配置。
 ///
 struct TLSConfig {
@@ -134,7 +134,7 @@ struct TLSConfig {
     /// @brief Whether to skip verifying the server's certificates, default to
     /// false.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 是否跳过验证服务端证书，默认值为false。
     ///
     bool skipVerifyPeer{ false };
@@ -144,7 +144,7 @@ struct TLSConfig {
     /// @brief A PEM format certificate chain as the client's certificates,
     /// default to an empty string(no client's certificates used).
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief PEM格式的客户端证书链，默认值为空（不使用客户端证书）。
     ///
     std::string certificates;
@@ -155,7 +155,7 @@ struct TLSConfig {
     /// @details Must be a certificate chain in PEM format. If not specified,
     /// the client will use CAs under the default system-dependent directories.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 校验服务端证书时使用的根CA。
     /// @details
     /// 必须是PEM格式的证书链。若没有指定该选项，则客户端将使用系统默认路径上存在的根CA。
@@ -166,7 +166,7 @@ struct TLSConfig {
     /// \~English
     /// @brief SSL/TLS version to use on the client, default to TLS v1.2.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 客户端使用的SSL/TLS版本，默认使用TLS v1.2。
     ///
     TLSVersion version{ TLSVersion::tlsv12 };
@@ -178,7 +178,7 @@ struct TLSConfig {
 /// \~English
 /// @brief The configuration of openGemini client.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief openGemini客户端配置。
 ///
 struct ClientConfig {
@@ -188,7 +188,7 @@ struct ClientConfig {
     /// @details Consist of one or more endpoints @ref Endpoint , and is not
     /// allowed to be empty or to contain duplicate endpoints.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief openGemini服务端地址列表。
     /// @details 可由一个或多个端点 @ref Endpoint
     /// 组成，不允许为空，也不允许包含重复端点。
@@ -200,7 +200,7 @@ struct ClientConfig {
     /// @brief Client authentication, default to @code std::nullopt @endcode (no
     /// authorization required).
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 客户端鉴权配置，默认值为 @code std::nullopt
     /// @endcode（无需鉴权）。
     ///
@@ -212,7 +212,7 @@ struct ClientConfig {
     /// @endcode (All of @ref WritePoint requests will be sent immediately
     /// instead of being aggregated).
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 批量配置，默认值为 @code std::nullopt @endcode
     /// （所有的@ref WritePoint 请求立即被发送，不会被聚合）。
     ///
@@ -222,7 +222,7 @@ struct ClientConfig {
     /// \~English
     /// @brief Client read/write timeout, default to 30 seconds.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 客户端读写超时，默认值为30秒。
     ///
     std::chrono::milliseconds timeout{ std::chrono::seconds(30) };
@@ -231,7 +231,7 @@ struct ClientConfig {
     /// \~English
     /// @brief Client connect timeout, default to 30 seconds.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 客户端连接超时，默认值为30秒。
     ///
     std::chrono::milliseconds connectTimeout{ std::chrono::seconds(30) };
@@ -240,7 +240,7 @@ struct ClientConfig {
     /// \~English
     /// @brief Whether to enable gzip, default to false.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 是否开启gzip，默认值为false。
     ///
     bool gzipEnabled{ false };
@@ -251,7 +251,7 @@ struct ClientConfig {
     /// @details A suggestion to the client on how many threads it should allow
     /// to run, default to 0 (at the client's discretion).
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 客户端并发参考值。
     /// @details 期望客户端运行的线程数，
     /// 客户端可能参考该值选择合适的线程数。默认值为0（由客户端自行决定）。
@@ -264,7 +264,7 @@ struct ClientConfig {
     /// @brief The Client TLS configuration, default to @code std::nullopt
     /// @endcode (Client will use the default value of @ref TLSConfig ).
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 客户端TLS配置，默认值为@code std::nullopt @endcode
     /// (客户端内部将使用 @ref TLSConfig 默认值)。
     ///
@@ -274,7 +274,7 @@ struct ClientConfig {
     /// \~English
     /// @brief Whether to enable TLS, default to false.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 是否开启TLS，默认值为false。
     ///
     bool tlsEnabled{ false };

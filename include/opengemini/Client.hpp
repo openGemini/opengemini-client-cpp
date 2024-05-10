@@ -31,7 +31,7 @@ class ClientImpl;
 /// \~English
 /// @brief An openGemini client.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief openGemini客户端。
 ///
 class Client {
@@ -45,7 +45,7 @@ public:
     /// constructed as @ref ClientConfig structure, or can be built using @ref
     /// ClientConfigBuilder.
     ///
-    /// \~Chinese
+    /// \~Simplified Chinese
     /// @brief 构造函数。
     /// @details 创建一个能与openGemini数据库集群通讯的客户端。
     /// @param config 客户端配置，可以直接构造该结构体 @ref ClientConfig

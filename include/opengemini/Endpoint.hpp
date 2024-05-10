@@ -27,7 +27,7 @@ namespace opengemini {
 /// \~English
 /// @brief Address of openGemini server.
 ///
-/// \~Chinese
+/// \~Simplified Chinese
 /// @brief openGemini服务器地址。
 ///
 struct Endpoint {
