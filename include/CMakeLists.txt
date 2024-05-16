@@ -42,6 +42,7 @@ else()
     add_library(Client
         opengemini/impl/ClientImpl.cpp
         opengemini/impl/ClientConfigBuilder.cpp
+        opengemini/impl/ErrorCode.cpp
         opengemini/impl/comm/Context.cpp
         opengemini/impl/http/IHttpClient.cpp
     )
