@@ -59,7 +59,7 @@ public:
     /// @brief Checks if the error code value is valid.
     ///
     /// \~Chinese
-    /// @breif 检查错误码是否有效。
+    /// @brief 检查错误码是否有效。
     ///
     explicit operator bool() const noexcept { return bool(code_); }
 

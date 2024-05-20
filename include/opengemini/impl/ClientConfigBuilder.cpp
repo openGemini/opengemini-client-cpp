@@ -23,7 +23,7 @@ namespace opengemini {
 OPENGEMINI_INLINE_SPECIFIER
 const ClientConfig& ClientConfigBuilder::Finalize() const noexcept
 {
-    return std::move(conf_);
+    return conf_;
 }
 
 OPENGEMINI_INLINE_SPECIFIER

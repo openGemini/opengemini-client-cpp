@@ -75,8 +75,8 @@ private:
 
 } // namespace opengemini::impl::http
 
-#ifndef OPENGEMINI_SEPERATE_COMPILATION
+#ifndef OPENGEMINI_SEPARATE_COMPILATION
 #    include "opengemini/impl/http/IHttpClient.cpp"
-#endif // !OPENGEMINI_SEPERATE_COMPILATION
+#endif // !OPENGEMINI_SEPARATE_COMPILATION
 
 #endif // !OPENGEMINI_IMPL_HTTP_IHTTPCLIENT_HPP

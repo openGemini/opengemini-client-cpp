@@ -29,8 +29,8 @@ public:
 
 } // namespace opengemini::impl
 
-#ifndef OPENGEMINI_SEPERATE_COMPILATION
+#ifndef OPENGEMINI_SEPARATE_COMPILATION
 #    include "opengemini/impl/ClientImpl.cpp"
-#endif // !OPENGEMINI_SEPERATE_COMPILATION
+#endif // !OPENGEMINI_SEPARATE_COMPILATION
 
 #endif // !OPENGEMINI_IMPL_CLIENT_HPP

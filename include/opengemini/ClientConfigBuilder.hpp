@@ -24,7 +24,7 @@ namespace opengemini {
 ///
 /// \~English
 /// @brief Class to build client configuration.
-/// @details For details about fileds of configuration see @ref ClientConfig.
+/// @details For details about fields of configuration see @ref ClientConfig.
 /// @note The member function @ref Finalize() must be called at the end to get
 /// the configuration object.
 ///
@@ -51,7 +51,7 @@ public:
 
     ///
     /// \~English
-    /// @brief Finish bulding the client configuration and return it.
+    /// @brief Finish building the client configuration and return it.
     /// @return The config struct as built.
     ///
     /// \~Chinese
@@ -183,8 +183,8 @@ public:
 #ifdef OPENGEMINI_ENABLE_SSL_SUPPORT
     ///
     /// \~English
-    /// @brief Set whehter to skip verifying the server's certificates or not.
-    /// @param skippped
+    /// @brief Set whether to skip verifying the server's certificates or not.
+    /// @param skipped
     /// @return Reference to the builder itself.
     ///
     /// \~Chinese
@@ -209,7 +209,7 @@ public:
 
     ///
     /// \~English
-    /// @brief Set the trusted certificate authority for performing verfication.
+    /// @brief Set the trusted certificate authority for performing verification.
     /// @param rootCAs A certificate chain in PEM format.
     /// @return Reference to the builder itself.
     ///
@@ -262,8 +262,8 @@ private:
 
 } // namespace opengemini
 
-#ifndef OPENGEMINI_SEPERATE_COMPILATION
+#ifndef OPENGEMINI_SEPARATE_COMPILATION
 #    include "opengemini/impl/ClientConfigBuilder.cpp"
-#endif // !OPENGEMINI_SEPERATE_COMPILATION
+#endif // !OPENGEMINI_SEPARATE_COMPILATION
 
 #endif // !OPENGEMINI_CLIENTCONFIGBUILDER_HPP
