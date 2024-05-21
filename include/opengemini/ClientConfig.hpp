@@ -34,7 +34,7 @@ namespace opengemini {
 
 ///
 /// \~English
-/// @brief Holds the user credentail for authorization.
+/// @brief Holds the user credential for authorization.
 ///
 /// \~Chinese
 /// @brief 存放鉴权使用的用户凭据。

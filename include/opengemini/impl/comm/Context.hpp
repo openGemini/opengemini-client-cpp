@@ -50,4 +50,8 @@ private:
 
 } // namespace opengemini::impl
 
+#ifndef OPENGEMINI_SEPARATE_COMPILATION
+#    include "opengemini/impl/comm/Context.cpp"
+#endif // !OPENGEMINI_SEPARATE_COMPILATION
+
 #endif // !OPENGEMINI_IMPL_COMM_CONTEXT_HPP

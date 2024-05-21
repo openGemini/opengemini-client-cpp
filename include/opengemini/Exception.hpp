@@ -46,7 +46,7 @@ public:
 
     ///
     /// \~English
-    /// @brief Returns a string ojbect describing the exception.
+    /// @brief Returns a string object describing the exception.
     ///
     /// \~Chinese
     /// @brief 返回描述异常信息的字符串。
@@ -55,10 +55,10 @@ public:
 
     ///
     /// \~English
-    /// @breif Returns the stored error object.
+    /// @brief Returns the stored error object.
     ///
     /// \~Chinese
-    /// @breif 返回承载的错误对象。
+    /// @brief 返回承载的错误对象。
     ///
     const Error& UnderlyingError() const noexcept { return error_; }
 
