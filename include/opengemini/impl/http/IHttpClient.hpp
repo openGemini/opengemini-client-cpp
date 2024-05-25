@@ -40,11 +40,11 @@ public:
 
     virtual ~IHttpClient() = default;
 
-    Response Get(const Endpoint&            endpoint,
+    Response Get(Endpoint                   endpoint,
                  std::string                target,
                  boost::asio::yield_context yield);
 
-    Response Post(const Endpoint&            endpoint,
+    Response Post(Endpoint                   endpoint,
                   std::string                target,
                   std::string                body,
                   boost::asio::yield_context yield);

@@ -1,0 +1,4 @@
+[files]
+extend-exclude = [
+    "test/util/test/SelfRootCA.hpp",
+]

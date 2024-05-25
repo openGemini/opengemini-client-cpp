@@ -45,6 +45,8 @@ else()
         opengemini/impl/ErrorCode.cpp
         opengemini/impl/comm/Context.cpp
         opengemini/impl/http/IHttpClient.cpp
+        opengemini/impl/http/HttpClient.cpp
+        opengemini/impl/http/HttpsClient.cpp
     )
     opengemini_target_setting(Client PUBLIC)
 endif()
