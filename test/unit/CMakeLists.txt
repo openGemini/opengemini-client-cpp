@@ -19,6 +19,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/deps/googletest.cmake)
 add_executable(UnitTest
     Client_Test.cpp
     ClientConfigBuilder_Test.cpp
+    impl/http/IHttpClient_Test.cpp
 )
 add_executable(${PROJECT_NAME}::UnitTest ALIAS UnitTest)
 

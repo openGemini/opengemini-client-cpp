@@ -39,30 +39,28 @@ IHttpClient::IHttpClient(boost::asio::io_context&  ctx,
 { }
 
 OPENGEMINI_INLINE_SPECIFIER
-Response IHttpClient::Get(const Endpoint&            endpoint,
+Response IHttpClient::Get(Endpoint                   endpoint,
                           std::string                target,
                           boost::asio::yield_context yield)
 {
-    return SendRequest(endpoint,
-                       BuildRequest(endpoint.host,
-                                    std::move(target),
-                                    {},
-                                    boost::beast::http::verb::get),
-                       yield);
+    auto request = BuildRequest(endpoint.host,
+                                std::move(target),
+                                {},
+                                boost::beast::http::verb::get);
+    return SendRequest(std::move(endpoint), std::move(request), yield);
 }
 
 OPENGEMINI_INLINE_SPECIFIER
-Response IHttpClient::Post(const Endpoint&            endpoint,
+Response IHttpClient::Post(Endpoint                   endpoint,
                            std::string                target,
                            std::string                body,
                            boost::asio::yield_context yield)
 {
-    return SendRequest(endpoint,
-                       BuildRequest(endpoint.host,
-                                    std::move(target),
-                                    std::move(body),
-                                    boost::beast::http::verb::post),
-                       yield);
+    auto request = BuildRequest(endpoint.host,
+                                std::move(target),
+                                std::move(body),
+                                boost::beast::http::verb::post);
+    return SendRequest(std::move(endpoint), std::move(request), yield);
 }
 
 OPENGEMINI_INLINE_SPECIFIER
