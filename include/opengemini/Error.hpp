@@ -88,6 +88,18 @@ public:
     ///
     const std::error_code& Code() const noexcept { return code_; }
 
+    void Clear() noexcept
+    {
+        code_.clear();
+        info_.clear();
+    }
+
+    void Assign(const std::error_code& code, std::string info = {}) noexcept
+    {
+        code_.assign(code.value(), code.category());
+        info_ = std::move(info);
+    }
+
     friend void swap(Error& lhs, Error& rhs) noexcept
     {
         using std::swap;
@@ -118,6 +130,14 @@ namespace opengemini::errc {
 enum class LogicErrors {
     NotImplemented = 1,
     InvalidArgument,
+};
+
+enum class ServerErrors {
+    NoAvailableServer = 1,
+};
+
+enum class RuntimeErrors {
+    Unexpected = 1,
 };
 
 } // namespace opengemini::errc

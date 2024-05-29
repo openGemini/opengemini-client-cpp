@@ -47,6 +47,7 @@ else()
         opengemini/impl/http/IHttpClient.cpp
         opengemini/impl/http/HttpClient.cpp
         opengemini/impl/http/HttpsClient.cpp
+        opengemini/impl/lb/LoadBalancer.cpp
     )
     opengemini_target_setting(Client PUBLIC)
 endif()

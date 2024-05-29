@@ -27,11 +27,21 @@ template<>
 struct is_error_code_enum<opengemini::errc::LogicErrors> :
     public std::true_type { };
 
+template<>
+struct is_error_code_enum<opengemini::errc::ServerErrors> :
+    public std::true_type { };
+
+template<>
+struct is_error_code_enum<opengemini::errc::RuntimeErrors> :
+    public std::true_type { };
+
 } // namespace std
 
 namespace opengemini::errc {
 
-inline std::error_code make_error_code(LogicErrors error);
+std::error_code make_error_code(LogicErrors error);
+std::error_code make_error_code(ServerErrors error);
+std::error_code make_error_code(RuntimeErrors error);
 
 } // namespace opengemini::errc
 
@@ -42,6 +52,20 @@ public:
     static const LogicCategory& Instance();
     const char*                 name() const noexcept override;
     std::string                 message(int value) const override;
+};
+
+class ServerCategory : public std::error_category {
+public:
+    static const ServerCategory& Instance();
+    const char*                  name() const noexcept override;
+    std::string                  message(int value) const override;
+};
+
+class RuntimeCategory : public std::error_category {
+public:
+    static const RuntimeCategory& Instance();
+    const char*                   name() const noexcept override;
+    std::string                   message(int value) const override;
 };
 
 } // namespace opengemini::errc::impl
