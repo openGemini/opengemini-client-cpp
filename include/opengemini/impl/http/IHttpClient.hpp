@@ -24,6 +24,7 @@
 #include <boost/beast.hpp>
 
 #include "opengemini/Endpoint.hpp"
+#include "opengemini/Error.hpp"
 #include "opengemini/impl/comm/TaskSlot.hpp"
 
 namespace opengemini::impl::http {
@@ -44,10 +45,21 @@ public:
                  std::string                target,
                  boost::asio::yield_context yield);
 
+    Response Get(Endpoint                   endpoint,
+                 std::string                target,
+                 boost::asio::yield_context yield,
+                 Error&                     error);
+
     Response Post(Endpoint                   endpoint,
                   std::string                target,
                   std::string                body,
                   boost::asio::yield_context yield);
+
+    Response Post(Endpoint                   endpoint,
+                  std::string                target,
+                  std::string                body,
+                  boost::asio::yield_context yield,
+                  Error&                     error);
 
     std::unordered_map<std::string, std::string>& DefaultHeaders() noexcept;
 

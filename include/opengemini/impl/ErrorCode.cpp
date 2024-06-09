@@ -20,10 +20,25 @@
 
 namespace opengemini::errc {
 
+OPENGEMINI_INLINE_SPECIFIER
 std::error_code make_error_code(LogicErrors error)
 {
     return std::error_code(static_cast<int>(error),
                            impl::LogicCategory::Instance());
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+std::error_code make_error_code(ServerErrors error)
+{
+    return std::error_code(static_cast<int>(error),
+                           impl::ServerCategory::Instance());
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+std::error_code make_error_code(RuntimeErrors error)
+{
+    return std::error_code(static_cast<int>(error),
+                           impl::RuntimeCategory::Instance());
 }
 
 } // namespace opengemini::errc
@@ -50,6 +65,59 @@ std::string LogicCategory::message(int value) const
     case LogicErrors::NotImplemented: return "Not implemented";
     case LogicErrors::InvalidArgument: return "Invalid argument";
     }
+    return "Unknown";
+}
+
+} // namespace opengemini::errc::impl
+
+namespace opengemini::errc::impl {
+
+OPENGEMINI_INLINE_SPECIFIER
+const ServerCategory& ServerCategory::Instance()
+{
+    static ServerCategory instance;
+    return instance;
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+const char* ServerCategory::name() const noexcept
+{
+    return "opengemini.server";
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+std::string ServerCategory::message(int value) const
+{
+    switch (static_cast<ServerErrors>(value)) {
+    case ServerErrors::NoAvailableServer: return "No available server";
+    }
+    return "Unknown";
+}
+
+} // namespace opengemini::errc::impl
+
+namespace opengemini::errc::impl {
+
+OPENGEMINI_INLINE_SPECIFIER
+const RuntimeCategory& RuntimeCategory::Instance()
+{
+    static RuntimeCategory instance;
+    return instance;
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+const char* RuntimeCategory::name() const noexcept
+{
+    return "opengemini.runtime";
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+std::string RuntimeCategory::message(int value) const
+{
+    switch (static_cast<RuntimeErrors>(value)) {
+    case RuntimeErrors::Unexpected: return "Unexpected error happened";
+    }
+    return "Unknown";
 }
 
 } // namespace opengemini::errc::impl

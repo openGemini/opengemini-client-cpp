@@ -19,6 +19,7 @@
 #include <fmt/format.h>
 
 #include "opengemini/Version.hpp"
+#include "opengemini/impl/util/ErrorHandling.hpp"
 #include "opengemini/impl/util/Preprocessor.hpp"
 
 namespace opengemini::impl::http {
@@ -51,6 +52,20 @@ Response IHttpClient::Get(Endpoint                   endpoint,
 }
 
 OPENGEMINI_INLINE_SPECIFIER
+Response IHttpClient::Get(Endpoint                   endpoint,
+                          std::string                target,
+                          boost::asio::yield_context yield,
+                          Error&                     error)
+try {
+    error.Clear();
+    return Get(std::move(endpoint), std::move(target), yield);
+}
+catch (...) {
+    util::ConvertError(error);
+    return {};
+}
+
+OPENGEMINI_INLINE_SPECIFIER
 Response IHttpClient::Post(Endpoint                   endpoint,
                            std::string                target,
                            std::string                body,
@@ -61,6 +76,21 @@ Response IHttpClient::Post(Endpoint                   endpoint,
                                 std::move(body),
                                 boost::beast::http::verb::post);
     return SendRequest(std::move(endpoint), std::move(request), yield);
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+Response IHttpClient::Post(Endpoint                   endpoint,
+                           std::string                target,
+                           std::string                body,
+                           boost::asio::yield_context yield,
+                           Error&                     error)
+try {
+    error.Clear();
+    return Post(std::move(endpoint), std::move(target), std::move(body), yield);
+}
+catch (...) {
+    util::ConvertError(error);
+    return {};
 }
 
 OPENGEMINI_INLINE_SPECIFIER
