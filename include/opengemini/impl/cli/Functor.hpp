@@ -14,22 +14,22 @@
 // limitations under the License.
 //
 
-#ifndef TEST_UTIL_TEST_HACKMEMBER_HPP
-#define TEST_UTIL_TEST_HACKMEMBER_HPP
+#ifndef OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+#define OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
 
-#include <tuple>
+#include "opengemini/impl/ClientImpl.hpp"
 
-namespace opengemini::test {
+namespace opengemini::impl {
 
-template<typename T, auto... field>
-struct MemberHacker {
-    friend auto HackingMember(T&) { return std::make_tuple(field...); }
+struct ClientImpl::Functor {
+    struct RunPing {
+        ClientImpl* impl_;
+        std::size_t index_;
+
+        std::string operator()(boost::asio::yield_context yield) const;
+    };
 };
 
-#define OPENGEMINI_TEST_MEMBER_HACKER(T, ...) \
-    inline auto HackingMember(T&);            \
-    template struct MemberHacker<T, __VA_ARGS__>;
+} // namespace opengemini::impl
 
-} // namespace opengemini::test
-
-#endif // !TEST_UTIL_TEST_HACKMEMBER_HPP
+#endif // !OPENGEMINI_IMPL_CLI_FUNCTOR_HPP

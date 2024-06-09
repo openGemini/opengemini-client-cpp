@@ -90,6 +90,8 @@ std::string ServerCategory::message(int value) const
 {
     switch (static_cast<ServerErrors>(value)) {
     case ServerErrors::NoAvailableServer: return "No available server";
+    case ServerErrors::UnexpectedStatusCode:
+        return "Receive unexpected status code from server";
     }
     return "Unknown";
 }

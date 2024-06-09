@@ -14,16 +14,26 @@
 // limitations under the License.
 //
 
+// Note: Tests in the ClientTest suite need to be run in a real environment with
+// OpenGemini deployed, which should listen on 127.0.0.1:8086.
+
 #include <gtest/gtest.h>
 
 #include "opengemini/Client.hpp"
+#include "opengemini/ClientConfigBuilder.hpp"
+
+using namespace std::chrono_literals;
 
 namespace opengemini::test {
 
-TEST(ClientTest, SimpleDeclaration)
+TEST(ClientTest, Ping)
 {
-    [[maybe_unused]] Client client{ {} };
-    SUCCEED();
+    Client client{
+        ClientConfigBuilder().AppendAddress({ "127.0.0.1", 8086 }).Finalize()
+    };
+
+    auto version = client.Ping(0);
+    EXPECT_FALSE(version.empty());
 }
 
 } // namespace opengemini::test
