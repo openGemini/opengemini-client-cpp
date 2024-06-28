@@ -134,6 +134,7 @@ enum class LogicErrors {
 
 enum class ServerErrors {
     NoAvailableServer = 1,
+    UnexpectedStatusCode,
 };
 
 enum class RuntimeErrors {

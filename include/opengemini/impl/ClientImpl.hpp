@@ -17,20 +17,61 @@
 #ifndef OPENGEMINI_IMPL_CLIENTIMPL_HPP
 #define OPENGEMINI_IMPL_CLIENTIMPL_HPP
 
+#include <memory>
+#include <type_traits>
+
 #include "opengemini/ClientConfig.hpp"
+#include "opengemini/impl/comm/Context.hpp"
+#include "opengemini/impl/http/IHttpClient.hpp"
+#include "opengemini/impl/lb/LoadBalancer.hpp"
+#include "opengemini/impl/util/TypeTraits.hpp"
 
 namespace opengemini::impl {
 
 class ClientImpl {
 public:
     explicit ClientImpl(const ClientConfig& config);
-    ~ClientImpl() = default;
+    ~ClientImpl();
+
+    template<typename COMPLETION_TOKEN>
+    auto Ping(std::size_t index, COMPLETION_TOKEN&& token);
+
+private:
+    std::shared_ptr<http::IHttpClient>
+    ConstructHttpClient(const ClientConfig& config);
+
+    template<typename COMPLETION_SIGNATURE,
+             typename COMPLETION_TOKEN,
+             typename FUNCTION,
+             typename = std::enable_if_t<
+                 std::is_same_v<util::HandlerExtraArgs_t<COMPLETION_SIGNATURE>,
+                                std::tuple<>>>>
+    void Spawn(FUNCTION&& func, COMPLETION_TOKEN&& token);
+
+    template<typename COMPLETION_SIGNATURE,
+             typename COMPLETION_TOKEN,
+             typename FUNCTION,
+             typename EXTRA_ARGS = std::enable_if_t<
+                 (std::tuple_size_v<
+                      util::HandlerExtraArgs_t<COMPLETION_SIGNATURE>> > 0),
+                 util::HandlerExtraArgs_t<COMPLETION_SIGNATURE>>,
+             typename = void>
+    void Spawn(FUNCTION&& func, COMPLETION_TOKEN&& token);
+
+private:
+    struct Functor;
+
+private:
+    Context                            ctx_;
+    std::shared_ptr<http::IHttpClient> http_;
+    std::shared_ptr<lb::LoadBalancer>  lb_;
 };
 
 } // namespace opengemini::impl
 
+#include "opengemini/impl/ClientImpl.tpp"
 #ifndef OPENGEMINI_SEPARATE_COMPILATION
 #    include "opengemini/impl/ClientImpl.cpp"
 #endif // !OPENGEMINI_SEPARATE_COMPILATION
 
-#endif // !OPENGEMINI_IMPL_CLIENT_HPP
+#endif // !OPENGEMINI_IMPL_CLIENTIMPL_HPP

@@ -14,22 +14,16 @@
 // limitations under the License.
 //
 
-#ifndef TEST_UTIL_TEST_HACKMEMBER_HPP
-#define TEST_UTIL_TEST_HACKMEMBER_HPP
+#ifndef OPENGEMINI_IMPL_COMM_COMPLETIONSIGNATURE_HPP
+#define OPENGEMINI_IMPL_COMM_COMPLETIONSIGNATURE_HPP
 
-#include <tuple>
+#include <exception>
+#include <string>
 
-namespace opengemini::test {
+namespace opengemini::impl::sig {
 
-template<typename T, auto... field>
-struct MemberHacker {
-    friend auto HackingMember(T&) { return std::make_tuple(field...); }
-};
+using Ping = void(std::exception_ptr, std::string);
 
-#define OPENGEMINI_TEST_MEMBER_HACKER(T, ...) \
-    inline auto HackingMember(T&);            \
-    template struct MemberHacker<T, __VA_ARGS__>;
+} // namespace opengemini::impl::sig
 
-} // namespace opengemini::test
-
-#endif // !TEST_UTIL_TEST_HACKMEMBER_HPP
+#endif // !OPENGEMINI_IMPL_COMM_COMPLETIONSIGNATURE_HPP

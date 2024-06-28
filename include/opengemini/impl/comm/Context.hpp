@@ -29,6 +29,8 @@ public:
     explicit Context(std::size_t concurrencyHint = 0);
     ~Context();
 
+    void Shutdown();
+
     boost::asio::io_context& operator()() noexcept;
 
 private:

@@ -16,11 +16,70 @@
 
 #include "opengemini/impl/ClientImpl.hpp"
 
+#include <fmt/format.h>
+
+#include "opengemini/Exception.hpp"
+#include "opengemini/impl/http/HttpClient.hpp"
+#ifdef OPENGEMINI_ENABLE_SSL_SUPPORT
+#    include "opengemini/impl/http/HttpsClient.hpp"
+#endif // OPENGEMINI_ENABLE_SSL_SUPPORT
+#include "opengemini/impl/util/Base64.hpp"
 #include "opengemini/impl/util/Preprocessor.hpp"
 
 namespace opengemini::impl {
 
 OPENGEMINI_INLINE_SPECIFIER
-ClientImpl::ClientImpl(const ClientConfig& config) { }
+ClientImpl::ClientImpl(const ClientConfig& config) :
+    ctx_(config.concurrencyHint),
+    http_(ConstructHttpClient(config)),
+    lb_(lb::LoadBalancer::Construct(ctx_(), config.addresses, http_))
+{
+    lb_->StartHealthCheck();
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+ClientImpl::~ClientImpl()
+{
+    lb_->StopHealthCheck();
+    ctx_.Shutdown();
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+std::shared_ptr<http::IHttpClient>
+ClientImpl::ConstructHttpClient(const ClientConfig& config)
+{
+    std::shared_ptr<http::IHttpClient> http;
+#ifdef OPENGEMINI_ENABLE_SSL_SUPPORT
+    if (config.tlsEnabled) {
+        http = std::make_shared<http::HttpsClient>(
+            ctx_(),
+            config.connectTimeout,
+            config.timeout,
+            config.tlsConfig.value_or(TLSConfig{}));
+    }
+    else
+#endif // OPENGEMINI_ENABLE_SSL_SUPPORT
+    {
+        http = std::make_shared<http::HttpClient>(ctx_(),
+                                                  config.connectTimeout,
+                                                  config.timeout);
+    }
+
+    if (auto& auth = config.authConfig; auth.has_value()) {
+        auto val = std::get_if<AuthCredential>(&auth.value());
+        if (!val) {
+            throw Exception(errc::LogicErrors::NotImplemented,
+                            "Only support authorization credential");
+        }
+
+        auto cred = fmt::format("{}:{}", val->username, val->password);
+        http->DefaultHeaders()["Authorization"] =
+            fmt::format("Basic {}", util::Base64Encode(cred));
+    }
+
+    return http;
+};
 
 } // namespace opengemini::impl
+
+#include "opengemini/impl/cli/Ping.cpp"

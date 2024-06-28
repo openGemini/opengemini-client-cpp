@@ -30,6 +30,12 @@ Context::Context(std::size_t concurrencyHint) :
 OPENGEMINI_INLINE_SPECIFIER
 Context::~Context()
 {
+    if (!ctx_.stopped()) { Shutdown(); }
+}
+
+OPENGEMINI_INLINE_SPECIFIER
+void Context::Shutdown()
+{
     ctxGuard_.reset();
     ctx_.stop();
     for (auto& thread : threads_) {

@@ -20,6 +20,7 @@
 #include <memory>
 
 #include "opengemini/ClientConfig.hpp"
+#include "opengemini/CompletionToken.hpp"
 
 namespace opengemini {
 
@@ -56,6 +57,46 @@ public:
 
     Client(Client&& client) noexcept;
     Client& operator=(Client&& client) noexcept;
+
+    ///
+    /// \~English
+    /// @brief Check the status of the database.
+    /// @details Check connectivity with specified database through sending ping
+    /// request, and return the version of the server.
+    /// @param index Index of database.
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error,
+    ///     // On success, the version of OpenGemini server.
+    ///     std::string version
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 检查数据库的连接状态。
+    /// @details
+    /// 发送Ping请求以测试指定数据库的连接是否正常，将返回服务端的版本号。
+    /// @param index 数据库集群索引。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error,
+    ///     // 当操作成功时，承载服务端的版本号。
+    ///     std::string version
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto Ping(std::size_t index, COMPLETION_TOKEN&& token = {});
 
 private:
     Client(const Client&)            = delete;
