@@ -16,40 +16,13 @@
 
 #include <gtest/gtest.h>
 
-#include "opengemini/ClientConfigBuilder.hpp"
 #include "opengemini/CompletionToken.hpp"
-#include "opengemini/impl/ClientImpl.hpp"
+#include "test/ClientImplTestFixture.hpp"
 #include "test/ExpectThrowAs.hpp"
-#include "test/HackMember.hpp"
-#include "test/MockIHttpClient.hpp"
 
 namespace opengemini::test {
 
-using namespace opengemini::impl;
-
-OPENGEMINI_TEST_MEMBER_HACKER(ClientImpl,
-                              &ClientImpl::ctx_,  // 0
-                              &ClientImpl::http_, // 1
-                              &ClientImpl::lb_)   // 2
-
-class PingTestFixture : public testing::Test {
-protected:
-    PingTestFixture() :
-        impl_(ClientConfigBuilder()
-                  .AppendAddress({ "127.0.0.1", 1234 })
-                  .AppendAddress({ "127.0.0.1", 4321 })
-                  .Finalize())
-    {
-        auto  hackImpl = HackingMember(impl_);
-        auto& ctx_     = impl_.*(std::get<0>(hackImpl));
-        mockHttp_      = std::make_shared<MockIHttpClient>(ctx_());
-        impl_.*(std::get<1>(hackImpl)) = mockHttp_;
-    }
-
-protected:
-    ClientImpl                       impl_;
-    std::shared_ptr<MockIHttpClient> mockHttp_;
-};
+class PingTestFixture : public test::ClientImplTestFixture { };
 
 TEST_F(PingTestFixture, Success)
 {

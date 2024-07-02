@@ -40,8 +40,11 @@ public:
         error_(code, info),
         what_(error_.What())
     { }
-    Exception(const Exception& ex) : error_(ex.error_) { }
-    Exception(Exception&& ex) noexcept : error_(std::move(ex.error_)) { }
+    Exception(const Exception& ex) : error_(ex.error_), what_(ex.what_) { }
+    Exception(Exception&& ex) noexcept :
+        error_(std::move(ex.error_)),
+        what_(std::move(ex.what_))
+    { }
     ~Exception() = default;
 
     ///

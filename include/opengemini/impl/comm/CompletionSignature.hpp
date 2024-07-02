@@ -20,9 +20,12 @@
 #include <exception>
 #include <string>
 
+#include "opengemini/Query.hpp"
+
 namespace opengemini::impl::sig {
 
-using Ping = void(std::exception_ptr, std::string);
+using Ping  = void(std::exception_ptr, std::string);
+using Query = void(std::exception_ptr, QueryResult);
 
 } // namespace opengemini::impl::sig
 

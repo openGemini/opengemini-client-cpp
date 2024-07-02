@@ -21,6 +21,7 @@
 
 #include "opengemini/ClientConfig.hpp"
 #include "opengemini/CompletionToken.hpp"
+#include "opengemini/Query.hpp"
 
 namespace opengemini {
 
@@ -97,6 +98,46 @@ public:
     ///
     template<typename COMPLETION_TOKEN = token::Sync>
     [[nodiscard]] auto Ping(std::size_t index, COMPLETION_TOKEN&& token = {});
+
+    ///
+    /// \~English
+    /// @brief Query data from database.
+    /// @details Query data stored in database,
+    /// and return the results as @ref QueryResult.
+    /// @param query The query statement as @ref struct Query.
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error,
+    ///     // On success, the query result.
+    ///     QueryResult result
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 从数据库查询数据。
+    /// @details
+    /// 查询数据库中存储的数据，将返回查询结果 @ref QueryResult 。
+    /// @param query 查询语句 @ref struct Query 。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error,
+    ///     // 当操作成功时，承载查询结果。
+    ///     QueryResult result
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto Query(struct Query query, COMPLETION_TOKEN&& token = {});
 
 private:
     Client(const Client&)            = delete;

@@ -14,31 +14,21 @@
 // limitations under the License.
 //
 
-#ifndef OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
-#define OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+#include "opengemini/Precision.hpp"
 
-#include "opengemini/impl/ClientImpl.hpp"
+namespace opengemini {
 
-#include "opengemini/Query.hpp"
+constexpr auto ToString(Precision precision) noexcept
+{
+    switch (precision) {
+    case Precision::Nanosecond: return "ns";
+    case Precision::Microsecond: return "u";
+    case Precision::Millisecond: return "ms";
+    case Precision::Second: return "s";
+    case Precision::Minute: return "m";
+    case Precision::Hour: return "h";
+    default: return "ns";
+    }
+}
 
-namespace opengemini::impl {
-
-struct ClientImpl::Functor {
-    struct RunPing {
-        ClientImpl* impl_;
-        std::size_t index_;
-
-        std::string operator()(boost::asio::yield_context yield) const;
-    };
-
-    struct RunQueryGet {
-        ClientImpl*  impl_;
-        struct Query query_;
-
-        QueryResult operator()(boost::asio::yield_context yield) const;
-    };
-};
-
-} // namespace opengemini::impl
-
-#endif // !OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+} // namespace opengemini

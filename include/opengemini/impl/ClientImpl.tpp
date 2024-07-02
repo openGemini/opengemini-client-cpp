@@ -42,6 +42,23 @@ auto ClientImpl::Ping(std::size_t index, COMPLETION_TOKEN&& token)
         index);
 }
 
+template<typename COMPLETION_TOKEN>
+auto ClientImpl::Query(struct Query query, COMPLETION_TOKEN&& token)
+{
+    using Signature = sig::Query;
+    return boost::asio::async_initiate<COMPLETION_TOKEN, Signature>(
+        [this](auto&& token, struct Query query) {
+            static_assert(util::IsInvocable_v<decltype(token), Signature>,
+                          "Completion signature of Query must be: "
+                          "void(std::exception_ptr, QueryResult)");
+
+            Spawn<Signature>(Functor::RunQueryGet{ this, std::move(query) },
+                             OPENGEMINI_PF(token));
+        },
+        token,
+        std::move(query));
+}
+
 template<typename COMPLETION_SIGNATURE,
          typename COMPLETION_TOKEN,
          typename FUNCTION,
