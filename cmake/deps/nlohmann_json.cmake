@@ -14,26 +14,17 @@
 # limitations under the License.
 #
 
-include(${PROJECT_SOURCE_DIR}/cmake/deps/googletest.cmake)
+include_guard()
+include(FetchContent)
 
-add_executable(UnitTest
-    Client_Test.cpp
-    ClientConfigBuilder_Test.cpp
-    impl/cli/Ping_Test.cpp
-    impl/cli/Query_Test.cpp
-    impl/http/IHttpClient_Test.cpp
-    impl/lb/LoadBalancer_Test.cpp
+find_package(nlohmann_json QUIET)
+if(NOT nlohmann_json_FOUND)
+message(STATUS "Download nlohmann json and build it from source")
+set(JSON_Install ON)
+FetchContent_Declare(nlohmann_json
+    GIT_REPOSITORY https://github.com/nlohmann/json
+    GIT_TAG        v3.11.3
+    GIT_PROGRESS   TRUE
 )
-add_executable(${PROJECT_NAME}::UnitTest ALIAS UnitTest)
-
-target_link_libraries(UnitTest
-    PRIVATE
-        ${PROJECT_NAME}::Client
-        ${PROJECT_NAME}::TestUtil
-
-        GTest::gmock
-        GTest::gmock_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(UnitTest)
+FetchContent_MakeAvailable(nlohmann_json)
+endif()

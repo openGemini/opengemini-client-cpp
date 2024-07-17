@@ -36,4 +36,18 @@ TEST(ClientTest, Ping)
     EXPECT_FALSE(version.empty());
 }
 
+TEST(ClientTest, Query)
+{
+    Client client{
+        ClientConfigBuilder().AppendAddress({ "127.0.0.1", 8086 }).Finalize()
+    };
+
+    auto queryResult = client.Query({
+        "ExampleDatabase",
+        "select * from ExampleMeasurement",
+    });
+
+    std::cout << queryResult << std::endl;
+}
+
 } // namespace opengemini::test

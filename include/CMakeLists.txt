@@ -25,7 +25,9 @@ macro(opengemini_target_setting TARGET_NAME TARGET_SCOPE)
         ${TARGET_SCOPE}
             Boost::headers
             Boost::coroutine
+            Boost::url
             fmt::fmt
+            nlohmann_json::nlohmann_json
     )
     if(OPENGEMINI_ENABLE_SSL_SUPPORT)
         target_link_libraries(${TARGET_NAME}

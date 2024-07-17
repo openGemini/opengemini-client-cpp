@@ -42,4 +42,11 @@ auto Client::Ping(std::size_t index, COMPLETION_TOKEN&& token)
     return impl_->Ping(index, std::forward<COMPLETION_TOKEN>(token));
 }
 
+template<typename COMPLETION_TOKEN>
+auto Client::Query(struct Query query, COMPLETION_TOKEN&& token)
+{
+    return impl_->Query(std::move(query),
+                        std::forward<COMPLETION_TOKEN>(token));
+}
+
 } // namespace opengemini
