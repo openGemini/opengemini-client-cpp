@@ -19,8 +19,6 @@
 
 #include "opengemini/impl/ClientImpl.hpp"
 
-#include "opengemini/Query.hpp"
-
 namespace opengemini::impl {
 
 struct ClientImpl::Functor {
@@ -31,7 +29,49 @@ struct ClientImpl::Functor {
         std::string operator()(boost::asio::yield_context yield) const;
     };
 
+    struct RunCreateDatabase {
+        ClientImpl*             impl_;
+        std::string             db_;
+        std::optional<RpConfig> rpConfig_;
+
+        static constexpr auto CREATE_DB{ R"(CREATE DATABASE "{}")" };
+        static constexpr auto CREATE_DB_WITH_RP{
+            R"(CREATE DATABASE "{}" WITH{} REPLICATION 1{}{}{})"
+        };
+        static constexpr auto DURATION{ " DURATION {}" };
+        static constexpr auto SHARD_DUR{ " SHARD DURATION {}" };
+        static constexpr auto INDEX_DUR{ " INDEX DURATION {}" };
+        static constexpr auto NAME{ " NAME {}" };
+
+        void operator()(boost::asio::yield_context yield) const;
+    };
+
+    struct RunShowDatabase {
+        ClientImpl* impl_;
+
+        static constexpr auto SHOW_DB{ "SHOW DATABASES" };
+
+        std::vector<std::string>
+        operator()(boost::asio::yield_context yield) const;
+    };
+
+    struct RunDropDatabase {
+        ClientImpl* impl_;
+        std::string db_;
+
+        static constexpr auto DROP_DB{ R"(DROP DATABASE "{}")" };
+
+        void operator()(boost::asio::yield_context yield) const;
+    };
+
     struct RunQueryGet {
+        ClientImpl*  impl_;
+        struct Query query_;
+
+        QueryResult operator()(boost::asio::yield_context yield) const;
+    };
+
+    struct RunQueryPost {
         ClientImpl*  impl_;
         struct Query query_;
 

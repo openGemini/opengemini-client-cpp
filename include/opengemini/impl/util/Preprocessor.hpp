@@ -25,4 +25,12 @@
 
 #define OPENGEMINI_PF(ARG) std::forward<decltype(ARG)>(ARG)
 
+#if __cplusplus >= 202002L
+#    define OPENGEMINI_CONSTEXPR_SINCE_CXX20 constexpr
+#    define OPENGEMINI_CONSTEVAL_SINCE_CXX20 consteval
+#else // (__cplusplus >= 202002L)
+#    define OPENGEMINI_CONSTEXPR_SINCE_CXX20
+#    define OPENGEMINI_CONSTEVAL_SINCE_CXX20
+#endif // !(__cplusplus >= 202002L)
+
 #endif // !OPENGEMINI_UTIL_PREPROCESSOR_HPP

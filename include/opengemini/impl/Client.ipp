@@ -49,4 +49,26 @@ auto Client::Query(struct Query query, COMPLETION_TOKEN&& token)
                         std::forward<COMPLETION_TOKEN>(token));
 }
 
+template<typename COMPLETION_TOKEN>
+auto Client::CreateDatabase(std::string_view        database,
+                            std::optional<RpConfig> rpConfig,
+                            COMPLETION_TOKEN&&      token)
+{
+    return impl_->CreateDatabase(database,
+                                 std::move(rpConfig),
+                                 std::forward<COMPLETION_TOKEN>(token));
+}
+
+template<typename COMPLETION_TOKEN>
+auto Client::ShowDatabase(COMPLETION_TOKEN&& token)
+{
+    return impl_->ShowDatabase(std::forward<COMPLETION_TOKEN>(token));
+}
+
+template<typename COMPLETION_TOKEN>
+auto Client::DropDatabase(std::string_view database, COMPLETION_TOKEN&& token)
+{
+    return impl_->DropDatabase(database, std::forward<COMPLETION_TOKEN>(token));
+}
+
 } // namespace opengemini

@@ -92,6 +92,7 @@ std::string ServerCategory::message(int value) const
     case ServerErrors::NoAvailableServer: return "No available server";
     case ServerErrors::UnexpectedStatusCode:
         return "Receive unexpected status code from server";
+    case ServerErrors::ErrorResult: return "Receive error result from server";
     }
     return "Unknown";
 }

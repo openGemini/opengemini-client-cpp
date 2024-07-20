@@ -22,6 +22,7 @@
 #include "opengemini/ClientConfig.hpp"
 #include "opengemini/CompletionToken.hpp"
 #include "opengemini/Query.hpp"
+#include "opengemini/RpConfig.hpp"
 
 namespace opengemini {
 
@@ -138,6 +139,111 @@ public:
     ///
     template<typename COMPLETION_TOKEN = token::Sync>
     [[nodiscard]] auto Query(struct Query query, COMPLETION_TOKEN&& token = {});
+
+    ///
+    /// \~English
+    /// @brief Creates a new database.
+    /// @param database Name of the database.
+    /// @param rpConfig Optional retention policy as @ref RpConfig, default to
+    /// @code std::nullopt @endcode .
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 创建数据库。
+    /// @param database 数据库名称。
+    /// @param rpConfig 可选的保留策略@ref RpConfig，默认值为
+    /// @code std::nullopt @endcode .
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto CreateDatabase(std::string_view        database,
+                                      std::optional<RpConfig> rpConfig = {},
+                                      COMPLETION_TOKEN&&      token    = {});
+
+    ///
+    /// \~English
+    /// @brief Get all database names in OpenGemini.
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error,
+    ///     // On success, the vector of database names.
+    ///     std::vector<std::string> databases
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 获取OpenGemini所有数据库名称。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error,
+    ///     // 当操作成功时，承载数据库名称数组。
+    ///     std::vector<std::string> databases
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto ShowDatabase(COMPLETION_TOKEN&& token = {});
+
+    ///
+    /// \~English
+    /// @brief Drop a database.
+    /// @param database Name of the database.
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 删除数据库。
+    /// @param database 数据库名称。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto DropDatabase(std::string_view   database,
+                                    COMPLETION_TOKEN&& token = {});
 
 private:
     Client(const Client&)            = delete;

@@ -59,6 +59,65 @@ auto ClientImpl::Query(struct Query query, COMPLETION_TOKEN&& token)
         std::move(query));
 }
 
+template<typename COMPLETION_TOKEN>
+auto ClientImpl::CreateDatabase(std::string_view        database,
+                                std::optional<RpConfig> rpConfig,
+                                COMPLETION_TOKEN&&      token)
+{
+    using Signature = sig::CreateDatabase;
+    return boost::asio::async_initiate<COMPLETION_TOKEN, Signature>(
+        [this](auto&&                  token,
+               std::string             database,
+               std::optional<RpConfig> rpConfig) {
+            static_assert(util::IsInvocable_v<decltype(token), Signature>,
+                          "Completion signature of CreateDatabase must be: "
+                          "void(std::exception_ptr)");
+
+            Spawn<Signature>(Functor::RunCreateDatabase{ this,
+                                                         std::move(database),
+                                                         std::move(rpConfig) },
+                             OPENGEMINI_PF(token));
+        },
+        token,
+        std::string(database),
+        std::move(rpConfig));
+}
+
+template<typename COMPLETION_TOKEN>
+auto ClientImpl::ShowDatabase(COMPLETION_TOKEN&& token)
+{
+    using Signature = sig::ShowDatabase;
+    return boost::asio::async_initiate<COMPLETION_TOKEN, Signature>(
+        [this](auto&& token) {
+            static_assert(util::IsInvocable_v<decltype(token), Signature>,
+                          "Completion signature of ShowDatabase must be: "
+                          "void(std::exception_ptr, std::vector<std::string>)");
+
+            Spawn<Signature>(Functor::RunShowDatabase{ this },
+                             OPENGEMINI_PF(token));
+        },
+        token);
+}
+
+template<typename COMPLETION_TOKEN>
+auto ClientImpl::DropDatabase(std::string_view   database,
+                              COMPLETION_TOKEN&& token)
+{
+    using Signature = sig::DropDatabase;
+    return boost::asio::async_initiate<COMPLETION_TOKEN, Signature>(
+        [this](auto&& token, std::string database) {
+            static_assert(util::IsInvocable_v<decltype(token), Signature>,
+                          "Completion signature of DropDatabase must be: "
+                          "void(std::exception_ptr)");
+
+            Spawn<Signature>(
+                Functor::RunDropDatabase{ this, std::move(database) },
+                OPENGEMINI_PF(token));
+        },
+        token,
+        std::string(database));
+}
+
 template<typename COMPLETION_SIGNATURE,
          typename COMPLETION_TOKEN,
          typename FUNCTION,

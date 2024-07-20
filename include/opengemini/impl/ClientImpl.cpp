@@ -82,5 +82,6 @@ ClientImpl::ConstructHttpClient(const ClientConfig& config)
 
 } // namespace opengemini::impl
 
+#include "opengemini/impl/cli/Database.cpp"
 #include "opengemini/impl/cli/Ping.cpp"
 #include "opengemini/impl/cli/Query.cpp"

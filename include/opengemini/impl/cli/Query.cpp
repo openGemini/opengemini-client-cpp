@@ -23,14 +23,35 @@
 
 namespace opengemini::impl {
 
+namespace free {
+
+inline void CheckQuery(const struct Query& query)
+{
+    if (query.command.empty()) {
+        throw Exception(errc::LogicErrors::InvalidArgument,
+                        "Field [command] must not be empty");
+    }
+}
+
+inline auto ParseQueryRsp(const http::Response& rsp)
+{
+    if (rsp.result() != http::Status::ok) {
+        throw Exception(errc::ServerErrors::UnexpectedStatusCode,
+                        fmt::format("Received code: {}, body:{}",
+                                    rsp.result_int(),
+                                    rsp.body()));
+    }
+
+    return nlohmann::json::parse(rsp.body()).get<QueryResult>();
+}
+
+} // namespace free
+
 OPENGEMINI_INLINE_SPECIFIER
 QueryResult ClientImpl::Functor::RunQueryGet::operator()(
     boost::asio::yield_context yield) const
 {
-    if (query_.command.empty()) {
-        throw Exception(errc::LogicErrors::InvalidArgument,
-                        "Field [command] must not be empty");
-    }
+    free::CheckQuery(query_);
 
     boost::url target(url::QUERY);
     target.set_query(fmt::format("db={}&q={}&rp={}&epoch={}",
@@ -42,15 +63,24 @@ QueryResult ClientImpl::Functor::RunQueryGet::operator()(
     auto rsp = impl_->http_->Get(impl_->lb_->PickAvailableServer(),
                                  target.buffer(),
                                  yield);
+    return free::ParseQueryRsp(rsp);
+}
 
-    if (rsp.result() != http::Status::ok) {
-        throw Exception(errc::ServerErrors::UnexpectedStatusCode,
-                        fmt::format("Received code: {}, body:{}",
-                                    rsp.result_int(),
-                                    rsp.body()));
-    }
+OPENGEMINI_INLINE_SPECIFIER
+QueryResult ClientImpl::Functor::RunQueryPost::operator()(
+    boost::asio::yield_context yield) const
+{
+    free::CheckQuery(query_);
 
-    return nlohmann::json::parse(rsp.body()).get<QueryResult>();
+    boost::url target(url::QUERY);
+    target.set_query(
+        fmt::format("db={}&q={}", query_.database, query_.command));
+
+    auto rsp = impl_->http_->Post(impl_->lb_->PickAvailableServer(),
+                                  target.buffer(),
+                                  {},
+                                  yield);
+    return free::ParseQueryRsp(rsp);
 }
 
 } // namespace opengemini::impl
