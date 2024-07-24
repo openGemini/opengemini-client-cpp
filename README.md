@@ -1,4 +1,6 @@
-# OpenGemini C++ Client SDK
+# OpenGemini C++ Client
+
+![License](https://img.shields.io/badge/开源许可证-Apache2.0-green) ![Language](https://img.shields.io/badge/语言-C++-blue.svg) [![Version](https://img.shields.io/github/v/tag/opengemini/opengemini-client-cpp?label=发行版本&color=blue)](https://github.com/opengemini/opengemini-client-cpp/releases)
 
 [中文](README.md) | [English](README_EN.md)
 
