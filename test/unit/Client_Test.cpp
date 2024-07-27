@@ -14,9 +14,6 @@
 // limitations under the License.
 //
 
-// Note: Tests in the ClientTest suite need to be run in a real environment with
-// OpenGemini deployed, which should listen on 127.0.0.1:8086.
-
 #include <gtest/gtest.h>
 
 #include "opengemini/Client.hpp"
@@ -25,6 +22,9 @@
 using namespace std::chrono_literals;
 
 namespace opengemini::test {
+
+// Note: Tests in the ClientTest suite need to be run in a real environment with
+// OpenGemini deployed, which should listen on 127.0.0.1:8086.
 
 TEST(ClientTest, Ping)
 {
@@ -48,6 +48,23 @@ TEST(ClientTest, Query)
     });
 
     std::cout << queryResult << std::endl;
+}
+
+TEST(ClientTest, Database)
+{
+    using namespace duration_literals;
+
+    Client client{
+        ClientConfigBuilder().AppendAddress({ "127.0.0.1", 8086 }).Finalize()
+    };
+
+    client.CreateDatabase(
+        "test_db_cxx",
+        RpConfig{ "test_retention_policy_cxx", 5_day, 2_minute, 1_week });
+    std::cout << fmt::format("Database: {}\n", client.ShowDatabase());
+
+    client.DropDatabase("test_retention_policy_cxx");
+    std::cout << fmt::format("Database: {}\n", client.ShowDatabase());
 }
 
 } // namespace opengemini::test

@@ -19,13 +19,17 @@
 
 #include <exception>
 #include <string>
+#include <vector>
 
 #include "opengemini/Query.hpp"
 
 namespace opengemini::impl::sig {
 
-using Ping  = void(std::exception_ptr, std::string);
-using Query = void(std::exception_ptr, QueryResult);
+using Ping           = void(std::exception_ptr, std::string);
+using Query          = void(std::exception_ptr, QueryResult);
+using CreateDatabase = void(std::exception_ptr);
+using ShowDatabase   = void(std::exception_ptr, std::vector<std::string>);
+using DropDatabase   = void(std::exception_ptr);
 
 } // namespace opengemini::impl::sig
 

@@ -124,3 +124,18 @@ inline std::ostream& operator<<(std::ostream&      os,
 }
 
 } // namespace opengemini
+
+namespace opengemini::impl::free {
+
+inline const std::string* HasError(const QueryResult& queryResult)
+{
+    if (!queryResult.error.empty()) { return &(queryResult.error); }
+
+    for (auto& result : queryResult.results) {
+        if (!result.error.empty()) { return &result.error; }
+    }
+
+    return nullptr;
+}
+
+} // namespace opengemini::impl::free
