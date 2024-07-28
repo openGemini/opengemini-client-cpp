@@ -36,6 +36,7 @@ _deps
 /.vscode/
 /build/
 !.idea/icon.svg
+!.idea/vcs.xml
 
 # Executables
 *.exe
