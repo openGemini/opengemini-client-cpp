@@ -22,7 +22,7 @@
 #include "opengemini/ClientConfig.hpp"
 #include "opengemini/CompletionToken.hpp"
 #include "opengemini/Query.hpp"
-#include "opengemini/RpConfig.hpp"
+#include "opengemini/RetentionPolicy.hpp"
 
 namespace opengemini {
 
@@ -144,8 +144,8 @@ public:
     /// \~English
     /// @brief Creates a new database.
     /// @param database Name of the database.
-    /// @param rpConfig Optional retention policy as @ref RpConfig, default to
-    /// @code std::nullopt @endcode .
+    /// @param rpConfig Optional retention policy configuration
+    /// as @ref RpConfig, default to @code std::nullopt @endcode .
     /// @param token The completion token which will be invoked when the task
     /// complete. Default to @ref token::sync if this parameter is not
     /// specified. If passing function object as token, the function signature
@@ -161,7 +161,7 @@ public:
     /// \~Chinese
     /// @brief 创建数据库。
     /// @param database 数据库名称。
-    /// @param rpConfig 可选的保留策略@ref RpConfig，默认值为
+    /// @param rpConfig 可选的保留策略配置@ref RpConfig，默认值为
     /// @code std::nullopt @endcode .
     /// @param token 任务完成令牌，将在任务完成后被调用。
     /// 若没有指定该参数，则使用默认值：@ref token::sync 。
@@ -244,6 +244,118 @@ public:
     template<typename COMPLETION_TOKEN = token::Sync>
     [[nodiscard]] auto DropDatabase(std::string_view   database,
                                     COMPLETION_TOKEN&& token = {});
+
+    ///
+    /// \~English
+    /// @brief Creates a new retention policy.
+    /// @param database Name of the database.
+    /// @param rpConfig Retention policy configuration as @ref RpConfig .
+    /// @param isDefault Sets the new policy as the default retention
+    /// policy for the database, default to false.
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 创建新的保留策略。
+    /// @param database 数据库名称。
+    /// @param rpConfig 保留策略配置@ref RpConfig 。
+    /// @param isDefault 将新的策略设置为该数据库的默认保留策略，默认值为false。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto CreateRetentionPolicy(std::string_view   database,
+                                             RpConfig           rpConfig,
+                                             bool               isDefault,
+                                             COMPLETION_TOKEN&& token = {});
+
+    ///
+    /// \~English
+    /// @brief Get all retention policies for the specified database.
+    /// @param database Name of the database.
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error,
+    ///     // On success, the vector of retention policy
+    ///     std::vector<RetentionPolicy> retentionPolicies
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 获取指定数据库的所有保留策略。
+    /// @param database 数据库名称。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error,
+    ///     // 当操作成功时，承载保留策略数组。
+    ///     std::vector<RetentionPolicy> retentionPolicies
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto ShowRetentionPolicies(std::string_view   database,
+                                             COMPLETION_TOKEN&& token = {});
+
+    ///
+    /// \~English
+    /// @brief Drop a retention policy.
+    /// @param database Name of the database.
+    /// @param retentionPolicy Name of the retention policy.
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 删除保留策略。
+    /// @param database 数据库名称。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto DropRetentionPolicy(std::string_view   database,
+                                           std::string_view   retentionPolicy,
+                                           COMPLETION_TOKEN&& token = {});
 
 private:
     Client(const Client&)            = delete;
