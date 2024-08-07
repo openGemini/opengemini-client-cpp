@@ -1,12 +1,19 @@
-# OpenGemini C++ Client
+# opengemini-client-cpp
 
-![License](https://img.shields.io/badge/开源许可证-Apache2.0-green) ![Language](https://img.shields.io/badge/语言-C++-blue.svg) [![Version](https://img.shields.io/github/v/tag/opengemini/opengemini-client-cpp?label=发行版本&color=blue)](https://github.com/opengemini/opengemini-client-cpp/releases)
+![License](https://img.shields.io/badge/license-Apache2.0-green) ![Language](https://img.shields.io/badge/language-C++-blue.svg) [![Version](https://img.shields.io/github/v/tag/opengemini/opengemini-client-cpp?label=release&color=blue)](https://github.com/opengemini/opengemini-client-cpp/releases)
 
-[中文](README.md) | [English](README_EN.md)
 
-> ⚠️  **当前仓库仍处于早期开发阶段，功能特性尚未完成。目前提供的API接口不是稳定版本，可能随开发进程有所调整。**
+English | [简体中文](README_CN.md)
 
-## 附加信息
-如果您想了解更多关于OpenGemini的信息，参见：
-- [OpenGemini, 一款开源的分布式时序数据库](https://github.com/openGemini/openGemini/blob/main/README_CN.md)
-- [OpenGemini客户端的设计思路](https://github.com/openGemini/openGemini.github.io/blob/main/src/zh/guide/develop/client_design.md)
+`opengemini-client-cpp` is a C++ client for OpenGemini
+
+> ⚠️  **This repository is in pre-alpha stage, so not yet feature-complete. And the API has not been frozen, it may be changed on the course of the development.**
+
+## Design Doc
+
+[OpenGemini Client Design Doc](https://github.com/openGemini/openGemini.github.io/blob/main/src/guide/develop/client_design.md)
+
+## About OpenGemini
+
+OpenGemini is a cloud-native distributed time series database, find more information [here](https://github.com/openGemini/openGemini) 
+
