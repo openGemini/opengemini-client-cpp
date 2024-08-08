@@ -15,5 +15,4 @@ English | [简体中文](README_CN.md)
 
 ## About OpenGemini
 
-OpenGemini is a cloud-native distributed time series database, find more information [here](https://github.com/openGemini/openGemini) 
-
+OpenGemini is a cloud-native distributed time series database, find more information [here](https://github.com/openGemini/openGemini)
