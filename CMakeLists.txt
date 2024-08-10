@@ -16,8 +16,12 @@
 
 cmake_minimum_required(VERSION 3.24)
 
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/util/version.cmake)
+get_version_from_source(OPENGEMINI_PROJECT_VERSION)
+message(STATUS "OpenGeminiCxx version: ${OPENGEMINI_PROJECT_VERSION}")
+
 project(OpenGeminiCxx
-    VERSION      0.1.0
+    VERSION      ${OPENGEMINI_PROJECT_VERSION}
     DESCRIPTION  "OpenGemini Client SDK For C++"
     HOMEPAGE_URL "https://github.com/openGemini/opengemini-client-cpp"
     LANGUAGES    CXX
