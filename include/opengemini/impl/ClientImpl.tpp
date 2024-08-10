@@ -118,6 +118,82 @@ auto ClientImpl::DropDatabase(std::string_view   database,
         std::string(database));
 }
 
+template<typename COMPLETION_TOKEN>
+auto ClientImpl::CreateRetentionPolicy(std::string_view   database,
+                                       RpConfig           rpConfig,
+                                       bool               isDefault,
+                                       COMPLETION_TOKEN&& token)
+{
+    using Signature = sig::CreateRetentionPolicy;
+    return boost::asio::async_initiate<COMPLETION_TOKEN, Signature>(
+        [this](auto&&      token,
+               std::string database,
+               RpConfig    rpConfig,
+               bool        isDefault) {
+            static_assert(
+                util::IsInvocable_v<decltype(token), Signature>,
+                "Completion signature of CreateRetentionPolicy must be: "
+                "void(std::exception_ptr)");
+
+            Spawn<Signature>(
+                Functor::RunCreateRetentionPolicy{ this,
+                                                   std::move(database),
+                                                   std::move(rpConfig),
+                                                   isDefault },
+                OPENGEMINI_PF(token));
+        },
+        token,
+        std::string(database),
+        std::move(rpConfig),
+        isDefault);
+}
+
+template<typename COMPLETION_TOKEN>
+auto ClientImpl::ShowRetentionPolicies(std::string_view   database,
+                                       COMPLETION_TOKEN&& token)
+{
+    using Signature = sig::ShowRetentionPolicies;
+    return boost::asio::async_initiate<COMPLETION_TOKEN, Signature>(
+        [this](auto&& token, std::string database) {
+            static_assert(
+                util::IsInvocable_v<decltype(token), Signature>,
+                "Completion signature of ShowRetentionPolicies must be: "
+                "void(std::exception_ptr, std::vector<RetentionPolicy>)");
+
+            Spawn<Signature>(
+                Functor::RunShowRetentionPolicies{ this, std::move(database) },
+                OPENGEMINI_PF(token));
+        },
+        token,
+        std::string(database));
+}
+
+template<typename COMPLETION_TOKEN>
+auto ClientImpl::DropRetentionPolicy(std::string_view   database,
+                                     std::string_view   retentionPolicy,
+                                     COMPLETION_TOKEN&& token)
+{
+    using Signature = sig::DropRetentionPolicy;
+    return boost::asio::async_initiate<COMPLETION_TOKEN, Signature>(
+        [this](auto&&      token,
+               std::string database,
+               std::string retentionPolicy) {
+            static_assert(
+                util::IsInvocable_v<decltype(token), Signature>,
+                "Completion signature of DropRetentionPolicy must be: "
+                "void(std::exception_ptr)");
+
+            Spawn<Signature>(
+                Functor::RunDropRetentionPolicy{ this,
+                                                 std::move(database),
+                                                 std::move(retentionPolicy) },
+                OPENGEMINI_PF(token));
+        },
+        token,
+        std::string(database),
+        std::string(retentionPolicy));
+}
+
 template<typename COMPLETION_SIGNATURE,
          typename COMPLETION_TOKEN,
          typename FUNCTION,

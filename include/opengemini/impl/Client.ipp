@@ -71,4 +71,34 @@ auto Client::DropDatabase(std::string_view database, COMPLETION_TOKEN&& token)
     return impl_->DropDatabase(database, std::forward<COMPLETION_TOKEN>(token));
 }
 
+template<typename COMPLETION_TOKEN>
+auto Client::CreateRetentionPolicy(std::string_view   database,
+                                   RpConfig           rpConfig,
+                                   bool               isDefault,
+                                   COMPLETION_TOKEN&& token)
+{
+    return impl_->CreateRetentionPolicy(database,
+                                        std::move(rpConfig),
+                                        isDefault,
+                                        std::forward<COMPLETION_TOKEN>(token));
+}
+
+template<typename COMPLETION_TOKEN>
+auto Client::ShowRetentionPolicies(std::string_view   database,
+                                   COMPLETION_TOKEN&& token)
+{
+    return impl_->ShowRetentionPolicies(database,
+                                        std::forward<COMPLETION_TOKEN>(token));
+}
+
+template<typename COMPLETION_TOKEN>
+auto Client::DropRetentionPolicy(std::string_view   database,
+                                 std::string_view   retentionPolicy,
+                                 COMPLETION_TOKEN&& token)
+{
+    return impl_->DropRetentionPolicy(database,
+                                      retentionPolicy,
+                                      std::forward<COMPLETION_TOKEN>(token));
+}
+
 } // namespace opengemini

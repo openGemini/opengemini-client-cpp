@@ -60,14 +60,12 @@ std::vector<std::string> ClientImpl::Functor::RunShowDatabase::operator()(
                         fmt::format("Show database failed: {}", *error));
     }
 
-    if (queryResult.results.empty() ||
-        queryResult.results.front().series.empty()) {
-        return {};
-    }
+    const auto& result = queryResult.results;
+    const auto& series = result.front().series;
+    if (result.empty() || series.empty()) { return {}; }
 
     std::vector<std::string> dbs;
-    for (const auto& value :
-         queryResult.results.front().series.front().values) {
+    for (const auto& value : series.front().values) {
         if (value.empty()) { continue; }
 
         if (auto db = std::get_if<std::string>(&value.front()); db) {
@@ -87,7 +85,7 @@ void ClientImpl::Functor::RunDropDatabase::operator()(
     }
 
     auto queryResult =
-        RunQueryGet{ impl_, { {}, fmt::format(DROP_DB, db_) } }(yield);
+        RunQueryPost{ impl_, { {}, fmt::format(DROP_DB, db_) } }(yield);
     if (auto error = free::HasError(queryResult); error) {
         throw Exception(errc::ServerErrors::ErrorResult,
                         fmt::format("Drop database failed: {}", *error));

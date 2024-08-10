@@ -22,6 +22,7 @@ add_executable(UnitTest
     impl/cli/Database_Test.cpp
     impl/cli/Ping_Test.cpp
     impl/cli/Query_Test.cpp
+    impl/cli/RetentionPolicy_Test.cpp
     impl/http/IHttpClient_Test.cpp
     impl/lb/LoadBalancer_Test.cpp
 )

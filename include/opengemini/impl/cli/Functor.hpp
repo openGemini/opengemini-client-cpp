@@ -38,9 +38,6 @@ struct ClientImpl::Functor {
         static constexpr auto CREATE_DB_WITH_RP{
             R"(CREATE DATABASE "{}" WITH{} REPLICATION 1{}{}{})"
         };
-        static constexpr auto DURATION{ " DURATION {}" };
-        static constexpr auto SHARD_DUR{ " SHARD DURATION {}" };
-        static constexpr auto INDEX_DUR{ " INDEX DURATION {}" };
         static constexpr auto NAME{ " NAME {}" };
 
         void operator()(boost::asio::yield_context yield) const;
@@ -64,6 +61,40 @@ struct ClientImpl::Functor {
         void operator()(boost::asio::yield_context yield) const;
     };
 
+    struct RunCreateRetentionPolicy {
+        ClientImpl* impl_;
+        std::string db_;
+        RpConfig    rpConfig_;
+        bool        isDefault_;
+
+        static constexpr auto CREATE_RP{
+            R"(CREATE RETENTION POLICY {} ON "{}" DURATION {} REPLICATION 1{}{}{})"
+        };
+        static constexpr auto DEFAULT{ " DEFAULT" };
+
+        void operator()(boost::asio::yield_context yield) const;
+    };
+
+    struct RunShowRetentionPolicies {
+        ClientImpl* impl_;
+        std::string db_;
+
+        static constexpr auto SHOW_RP{ "SHOW RETENTION POLICIES" };
+
+        std::vector<RetentionPolicy>
+        operator()(boost::asio::yield_context yield) const;
+    };
+
+    struct RunDropRetentionPolicy {
+        ClientImpl* impl_;
+        std::string db_;
+        std::string rp_;
+
+        static constexpr auto DROP_RP{ R"(DROP RETENTION POLICY {} ON "{}")" };
+
+        void operator()(boost::asio::yield_context yield) const;
+    };
+
     struct RunQueryGet {
         ClientImpl*  impl_;
         struct Query query_;
@@ -77,6 +108,10 @@ struct ClientImpl::Functor {
 
         QueryResult operator()(boost::asio::yield_context yield) const;
     };
+
+    static constexpr auto DURATION{ " DURATION {}" };
+    static constexpr auto SHARD_DUR{ " SHARD DURATION {}" };
+    static constexpr auto INDEX_DUR{ " INDEX DURATION {}" };
 };
 
 } // namespace opengemini::impl

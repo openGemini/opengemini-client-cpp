@@ -14,10 +14,14 @@
 // limitations under the License.
 //
 
+#include <thread>
+
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include "opengemini/Client.hpp"
 #include "opengemini/ClientConfigBuilder.hpp"
+#include "opengemini/RetentionPolicy.hpp"
 
 using namespace std::chrono_literals;
 
@@ -58,13 +62,62 @@ TEST(ClientTest, Database)
         ClientConfigBuilder().AppendAddress({ "127.0.0.1", 8086 }).Finalize()
     };
 
-    client.CreateDatabase(
-        "test_db_cxx",
-        RpConfig{ "test_retention_policy_cxx", 5_day, 2_minute, 1_week });
-    std::cout << fmt::format("Database: {}\n", client.ShowDatabase());
+    constexpr auto db1{ "test_db_cxx1" };
+    constexpr auto db2{ "test_db_cxx2" };
 
-    client.DropDatabase("test_retention_policy_cxx");
-    std::cout << fmt::format("Database: {}\n", client.ShowDatabase());
+    client.CreateDatabase(db1, RpConfig{ "rp", 5_day, 2_hour, 1_week });
+    client.CreateDatabase(db2);
+    std::this_thread::sleep_for(500ms);
+
+    auto dbs = client.ShowDatabase();
+    EXPECT_THAT(dbs,
+                testing::AllOf(testing::Contains(db1), testing::Contains(db2)));
+
+    client.DropDatabase(db1);
+    std::this_thread::sleep_for(500ms);
+
+    dbs = client.ShowDatabase();
+    EXPECT_THAT(dbs,
+                testing::AllOf(testing::Not(testing::Contains(db1)),
+                               testing::Contains(db2)));
+
+    client.DropDatabase(db2);
+    std::this_thread::sleep_for(500ms);
+
+    dbs = client.ShowDatabase();
+    EXPECT_THAT(dbs,
+                testing::Not(testing::AllOf(testing::Contains(db1),
+                                            testing::Contains(db2))));
+}
+
+TEST(ClientTest, RetentionPolicy)
+{
+    using namespace duration_literals;
+
+    Client client{
+        ClientConfigBuilder().AppendAddress({ "127.0.0.1", 8086 }).Finalize()
+    };
+
+    constexpr auto db{ "test_rp_cxx" };
+    constexpr auto rp1{ "rp1" };
+    constexpr auto rp2{ "rp2" };
+    constexpr auto rp3{ "rp3" };
+
+    client.CreateDatabase(db, RpConfig{ rp1, 1_week, 2_day, 3_hour });
+    client.CreateRetentionPolicy(db, { rp2, 4_day, 5_hour, 6_minute }, true);
+    client.CreateRetentionPolicy(db, { rp3, 7_day, 8_hour, 9_hour }, false);
+    std::this_thread::sleep_for(500ms);
+
+    auto rps = client.ShowRetentionPolicies(db);
+    EXPECT_EQ(rps.size(), 3);
+
+    client.DropRetentionPolicy(db, rp1);
+    std::this_thread::sleep_for(500ms);
+
+    rps = client.ShowRetentionPolicies(db);
+    EXPECT_EQ(rps.size(), 2);
+
+    client.DropDatabase(db);
 }
 
 } // namespace opengemini::test

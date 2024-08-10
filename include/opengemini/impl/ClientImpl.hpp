@@ -22,7 +22,7 @@
 
 #include "opengemini/ClientConfig.hpp"
 #include "opengemini/Query.hpp"
-#include "opengemini/RpConfig.hpp"
+#include "opengemini/RetentionPolicy.hpp"
 #include "opengemini/impl/comm/Context.hpp"
 #include "opengemini/impl/http/IHttpClient.hpp"
 #include "opengemini/impl/lb/LoadBalancer.hpp"
@@ -51,6 +51,21 @@ public:
 
     template<typename COMPLETION_TOKEN>
     auto DropDatabase(std::string_view database, COMPLETION_TOKEN&& token);
+
+    template<typename COMPLETION_TOKEN>
+    auto CreateRetentionPolicy(std::string_view   database,
+                               RpConfig           rpConfig,
+                               bool               isDefault,
+                               COMPLETION_TOKEN&& token);
+
+    template<typename COMPLETION_TOKEN>
+    auto ShowRetentionPolicies(std::string_view   database,
+                               COMPLETION_TOKEN&& token);
+
+    template<typename COMPLETION_TOKEN>
+    auto DropRetentionPolicy(std::string_view   database,
+                             std::string_view   retentionPolicy,
+                             COMPLETION_TOKEN&& token);
 
 private:
     std::shared_ptr<http::IHttpClient>

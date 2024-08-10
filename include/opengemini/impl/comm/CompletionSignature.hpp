@@ -22,14 +22,21 @@
 #include <vector>
 
 #include "opengemini/Query.hpp"
+#include "opengemini/RetentionPolicy.hpp"
 
 namespace opengemini::impl::sig {
 
-using Ping           = void(std::exception_ptr, std::string);
-using Query          = void(std::exception_ptr, QueryResult);
+using Ping  = void(std::exception_ptr, std::string);
+using Query = void(std::exception_ptr, QueryResult);
+
 using CreateDatabase = void(std::exception_ptr);
 using ShowDatabase   = void(std::exception_ptr, std::vector<std::string>);
 using DropDatabase   = void(std::exception_ptr);
+
+using CreateRetentionPolicy = void(std::exception_ptr);
+using ShowRetentionPolicies = void(std::exception_ptr,
+                                   std::vector<RetentionPolicy>);
+using DropRetentionPolicy   = void(std::exception_ptr);
 
 } // namespace opengemini::impl::sig
 
