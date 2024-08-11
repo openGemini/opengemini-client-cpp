@@ -22,9 +22,8 @@ if(NOT Boost_FOUND)
     message(STATUS "Download Boost and build it from source")
     set(BOOST_ENABLE_CMAKE ON)
     FetchContent_Declare(Boost
-        GIT_REPOSITORY https://github.com/boostorg/boost
-        GIT_TAG        boost-1.84.0
-        GIT_PROGRESS   TRUE
+        URL      https://github.com/boostorg/boost/releases/download/boost-1.85.0/boost-1.85.0-cmake.7z
+        URL_HASH SHA256=2399fb7b15c84c9dafc4ffb1be69c076da36e541fb960fd971b960c180023f2b
     )
     FetchContent_MakeAvailable(Boost)
 
