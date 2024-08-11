@@ -21,6 +21,7 @@ namespace opengemini::impl::url {
 
 inline constexpr auto PING  = "/ping";
 inline constexpr auto QUERY = "/query";
+inline constexpr auto WRITE = "/write";
 
 } // namespace opengemini::impl::url
 

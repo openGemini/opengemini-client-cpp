@@ -101,4 +101,29 @@ auto Client::DropRetentionPolicy(std::string_view   database,
                                       std::forward<COMPLETION_TOKEN>(token));
 }
 
+template<typename COMPLETION_TOKEN>
+auto Client::Write(std::string_view   database,
+                   Point              point,
+                   std::string_view   retentionPolicy,
+                   COMPLETION_TOKEN&& token)
+{
+    return impl_->Write<Point>(database,
+                               std::move(point),
+                               retentionPolicy,
+                               std::forward<COMPLETION_TOKEN>(token));
+}
+
+template<typename COMPLETION_TOKEN>
+auto Client::Write(std::string_view   database,
+                   std::vector<Point> points,
+                   std::string_view   retentionPolicy,
+                   COMPLETION_TOKEN&& token)
+{
+    return impl_->Write<std::vector<Point>>(
+        database,
+        std::move(points),
+        retentionPolicy,
+        std::forward<COMPLETION_TOKEN>(token));
+}
+
 } // namespace opengemini

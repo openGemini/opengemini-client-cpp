@@ -21,6 +21,7 @@
 
 #include "opengemini/ClientConfig.hpp"
 #include "opengemini/CompletionToken.hpp"
+#include "opengemini/Point.hpp"
 #include "opengemini/Query.hpp"
 #include "opengemini/RetentionPolicy.hpp"
 
@@ -356,6 +357,88 @@ public:
     [[nodiscard]] auto DropRetentionPolicy(std::string_view   database,
                                            std::string_view   retentionPolicy,
                                            COMPLETION_TOKEN&& token = {});
+
+    ///
+    /// \~English
+    /// @brief Write a point.
+    /// @param database Name of the database.
+    /// @param point Single point as @ref Point .
+    /// @param retentionPolicy Name of the retention policy, default to empty
+    /// string (no retention policy is specified).
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 写入一个点位。
+    /// @param database 数据库名称。
+    /// @param point 单个点位@ref Point 。
+    /// @param retentionPolicy
+    /// 保留策略名称，默认值为空字符串（即不指定保留策略）。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto Write(std::string_view   database,
+                             Point              point,
+                             std::string_view   retentionPolicy = {},
+                             COMPLETION_TOKEN&& token           = {});
+
+    ///
+    /// \~English
+    /// @brief Write multiple points.
+    /// @param database Name of the database.
+    /// @param points A vector of points.
+    /// @param retentionPolicy Name of the retention policy, default to empty
+    /// string (no retention policy is specified).
+    /// @param token The completion token which will be invoked when the task
+    /// complete. Default to @ref token::sync if this parameter is not
+    /// specified. If passing function object as token, the function signature
+    /// must be:
+    /// @code
+    /// void (
+    ///     // Result of operation, it means success if the value is nullptr,
+    ///     // otherwise, contains an exception.
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    /// \~Chinese
+    /// @brief 写入多个点位。
+    /// @param database 数据库名称。
+    /// @param points 点位数组。
+    /// @param retentionPolicy
+    /// 保留策略名称，默认值为空字符串（即不指定保留策略）。
+    /// @param token 任务完成令牌，将在任务完成后被调用。
+    /// 若没有指定该参数，则使用默认值：@ref token::sync 。
+    /// 若传递函数对象作为完成令牌，则其签名必须满足：
+    /// @code
+    /// void (
+    ///     // 执行结果，仅当值为nullptr时代表成功，否则将承载相关的异常。
+    ///     std::exception_ptr error
+    /// )
+    /// @endcode
+    ///
+    template<typename COMPLETION_TOKEN = token::Sync>
+    [[nodiscard]] auto Write(std::string_view   database,
+                             std::vector<Point> points,
+                             std::string_view   retentionPolicy = {},
+                             COMPLETION_TOKEN&& token           = {});
 
 private:
     Client(const Client&)            = delete;

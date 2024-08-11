@@ -23,6 +23,8 @@ add_executable(UnitTest
     impl/cli/Ping_Test.cpp
     impl/cli/Query_Test.cpp
     impl/cli/RetentionPolicy_Test.cpp
+    impl/cli/Write_Test.cpp
+    impl/enc/LineProtocolEncoder_Test.cpp
     impl/http/IHttpClient_Test.cpp
     impl/lb/LoadBalancer_Test.cpp
 )
