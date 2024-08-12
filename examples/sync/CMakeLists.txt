@@ -14,4 +14,8 @@
 # limitations under the License.
 #
 
-add_subdirectory(sync)
+add_executable(ExampleSyncQuery Query.cpp)
+add_executable(ExampleSyncWrite Write.cpp)
+
+target_link_libraries(ExampleSyncQuery PRIVATE ${PROJECT_NAME}::Client)
+target_link_libraries(ExampleSyncWrite PRIVATE ${PROJECT_NAME}::Client)
