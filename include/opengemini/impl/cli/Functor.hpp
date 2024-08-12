@@ -95,6 +95,16 @@ struct ClientImpl::Functor {
         void operator()(boost::asio::yield_context yield) const;
     };
 
+    template<typename POINT_TYPE>
+    struct RunWrite {
+        ClientImpl* impl_;
+        std::string db_;
+        std::string rp_;
+        POINT_TYPE  point_;
+
+        void operator()(boost::asio::yield_context yield) const;
+    };
+
     struct RunQueryGet {
         ClientImpl*  impl_;
         struct Query query_;

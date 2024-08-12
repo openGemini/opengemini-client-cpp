@@ -14,6 +14,7 @@
 // limitations under the License.
 //
 
+#include <chrono>
 #include <thread>
 
 #include <gmock/gmock.h>
@@ -118,6 +119,58 @@ TEST(ClientTest, RetentionPolicy)
     EXPECT_EQ(rps.size(), 2);
 
     client.DropDatabase(db);
+}
+
+TEST(ClientTest, Write)
+{
+    Client client{
+        ClientConfigBuilder().AppendAddress({ "127.0.0.1", 8086 }).Finalize()
+    };
+
+    std::cout << client.Query(
+                     { "ExampleDatabase", "select * from ExampleMeasurement" })
+              << std::endl;
+
+    Point point{ "ExampleMeasurement",
+                 { { "key1", "val11111111111111111111111111111" },
+                   { "key2", 2222 },
+                   { "key3", 0.333 },
+                   { "key4", true },
+                   { "key5", -5555 } },
+                 std::chrono::system_clock::now(),
+                 {},
+                 Precision::Nanosecond };
+
+    {
+        Point       _point1{ point };
+        const auto& _point2 = _point1;
+
+        client.Write("ExampleDatabase", _point1);
+        client.Write("ExampleDatabase", _point2);
+        client.Write("ExampleDatabase", std::move(_point1));
+        client.Write("ExampleDatabase",
+                     { "ExampleMeasurement", { { "f1", "v1" } } });
+    }
+
+    {
+        std::vector<Point> _points1{ point, point, point };
+        const auto&        _points2 = _points1;
+
+        client.Write("ExampleDatabase", _points1);
+        client.Write("ExampleDatabase", _points2);
+        client.Write("ExampleDatabase", std::move(_points1));
+        client.Write("ExampleDatabase",
+                     {
+                         { "ExampleMeasurement", { { "f1", "v1" } } },
+                         { "ExampleMeasurement", { { "f1", "v2" } } },
+                         { "ExampleMeasurement", { { "f1", "v3" } } },
+                     });
+    }
+
+    std::this_thread::sleep_for(500ms);
+    std::cout << client.Query(
+                     { "ExampleDatabase", "select * from ExampleMeasurement" })
+              << std::endl;
 }
 
 } // namespace opengemini::test

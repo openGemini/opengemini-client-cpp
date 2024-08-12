@@ -38,6 +38,8 @@ using ShowRetentionPolicies = void(std::exception_ptr,
                                    std::vector<RetentionPolicy>);
 using DropRetentionPolicy   = void(std::exception_ptr);
 
+using Write = void(std::exception_ptr);
+
 } // namespace opengemini::impl::sig
 
 #endif // !OPENGEMINI_IMPL_COMM_COMPLETIONSIGNATURE_HPP

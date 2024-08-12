@@ -194,6 +194,35 @@ auto ClientImpl::DropRetentionPolicy(std::string_view   database,
         std::string(retentionPolicy));
 }
 
+template<typename POINT_TYPE, typename COMPLETION_TOKEN>
+auto ClientImpl::Write(std::string_view   database,
+                       POINT_TYPE         point,
+                       std::string_view   retentionPolicy,
+                       COMPLETION_TOKEN&& token)
+{
+    using Signature = sig::Write;
+    return boost::asio::async_initiate<COMPLETION_TOKEN, Signature>(
+        [this](auto&&      token,
+               std::string database,
+               std::string retentionPolicy,
+               POINT_TYPE  point) {
+            static_assert(util::IsInvocable_v<decltype(token), Signature>,
+                          "Completion signature of Write must be: "
+                          "void(std::exception_ptr)");
+
+            Spawn<Signature>(
+                Functor::RunWrite<POINT_TYPE>{ this,
+                                               std::move(database),
+                                               std::move(retentionPolicy),
+                                               std::move(point) },
+                OPENGEMINI_PF(token));
+        },
+        token,
+        std::string(database),
+        std::string(retentionPolicy),
+        std::move(point));
+}
+
 template<typename COMPLETION_SIGNATURE,
          typename COMPLETION_TOKEN,
          typename FUNCTION,
@@ -228,3 +257,5 @@ void ClientImpl::Spawn(FUNCTION&& func, COMPLETION_TOKEN&& token)
 }
 
 } // namespace opengemini::impl
+
+#include "opengemini/impl/cli/Write.tpp"

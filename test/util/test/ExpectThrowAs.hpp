@@ -22,6 +22,7 @@
 #define EXPECT_THROW_AS(STATEMENT, EXPECTED_ERROR)              \
     try {                                                       \
         STATEMENT;                                              \
+        FAIL();                                                 \
     }                                                           \
     catch (const Exception& ex) {                               \
         EXPECT_EQ(ex.UnderlyingError().Code(), EXPECTED_ERROR); \

@@ -67,6 +67,12 @@ public:
                              std::string_view   retentionPolicy,
                              COMPLETION_TOKEN&& token);
 
+    template<typename POINT_TYPE, typename COMPLETION_TOKEN>
+    auto Write(std::string_view   database,
+               POINT_TYPE         point,
+               std::string_view   retentionPolicy,
+               COMPLETION_TOKEN&& token);
+
 private:
     std::shared_ptr<http::IHttpClient>
     ConstructHttpClient(const ClientConfig& config);
