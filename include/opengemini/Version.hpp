@@ -34,7 +34,7 @@
 /// \~Chinese
 /// @brief 库次版本号。
 ///
-#define OPENGEMINI_VERSION_MINOR 1
+#define OPENGEMINI_VERSION_MINOR 2
 
 ///
 /// \~English
