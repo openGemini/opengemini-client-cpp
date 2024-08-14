@@ -17,13 +17,15 @@
 include_guard()
 include(FetchContent)
 
-message(STATUS "Finding GoogleTest package first before trying to download and build it from source")
+message(STATUS "Looking for GoogleTest.")
+find_package(GTest)
 
-FetchContent_Declare(googletest
-    GIT_REPOSITORY https://github.com/google/googletest
-    GIT_TAG        v1.14.0
-    GIT_PROGRESS   TRUE
-    FIND_PACKAGE_ARGS
-        NAMES GTest
-)
-FetchContent_MakeAvailable(googletest)
+if (NOT GTest_FOUND)
+    message(STATUS "GoogleTest not found, try using FetchContent instead.")
+    FetchContent_Declare(googletest
+        GIT_REPOSITORY https://github.com/google/googletest
+        GIT_TAG        v1.14.0
+        GIT_PROGRESS   TRUE
+    )
+    FetchContent_MakeAvailable(googletest)
+endif()

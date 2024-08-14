@@ -17,12 +17,15 @@
 include_guard()
 include(FetchContent)
 
-message(STATUS "Finding {fmt} package first before trying to download and build it from source")
+message(STATUS "Looking for {fmt}.")
+find_package(fmt ${OPENGEMINI_FIND_PACKAGE_REQUIRED})
 
-FetchContent_Declare(fmt
-    GIT_REPOSITORY https://github.com/fmtlib/fmt
-    GIT_TAG        10.2.1
-    GIT_PROGRESS   TRUE
-    FIND_PACKAGE_ARGS
-)
-FetchContent_MakeAvailable(fmt)
+if(NOT fmt_FOUND AND OPENGEMINI_USE_FETCHCONTENT)
+    message(STATUS "{fmt} not found, try using FetchContent instead.")
+    FetchContent_Declare(fmt
+        GIT_REPOSITORY https://github.com/fmtlib/fmt
+        GIT_TAG        10.2.1
+        GIT_PROGRESS   TRUE
+    )
+    FetchContent_MakeAvailable(fmt)
+endif()

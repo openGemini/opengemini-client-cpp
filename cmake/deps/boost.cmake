@@ -17,47 +17,18 @@
 include_guard()
 include(FetchContent)
 
-find_package(Boost 1.81 QUIET COMPONENTS coroutine url)
-if(NOT Boost_FOUND)
-    message(STATUS "Download Boost and build it from source")
+message(STATUS "Looking for Boost.")
+find_package(Boost 1.81 ${OPENGEMINI_FIND_PACKAGE_REQUIRED} COMPONENTS headers serialization coroutine url)
+set(OPENGEMINI_BOOST_HEADER_TARGETS "Boost::headers")
+
+if(NOT Boost_FOUND AND OPENGEMINI_USE_FETCHCONTENT)
+    message(STATUS "Boost not found, try using FetchContent instead.")
+    set(BOOST_INCLUDE_LIBRARIES asio beast functional coroutine serialization url)
     set(BOOST_ENABLE_CMAKE ON)
     FetchContent_Declare(Boost
         URL      https://github.com/boostorg/boost/releases/download/boost-1.85.0/boost-1.85.0-cmake.7z
         URL_HASH SHA256=2399fb7b15c84c9dafc4ffb1be69c076da36e541fb960fd971b960c180023f2b
     )
     FetchContent_MakeAvailable(Boost)
-
-    set(OPENGEMINI_EXPORT_BOOST_TARGETS )
-    macro(append_boost_targets_recursively TARGET_NAME)
-        if (TARGET ${TARGET_NAME})
-            get_target_property(TARGET_ORIGIN_NAME ${TARGET_NAME} ALIASED_TARGET)
-            list(APPEND OPENGEMINI_EXPORT_BOOST_TARGETS ${TARGET_ORIGIN_NAME})
-        endif()
-
-        get_property(DEPEND_TARGETS TARGET ${TARGET_NAME} PROPERTY INTERFACE_LINK_LIBRARIES)
-        foreach(DEPEND_TARGET IN LISTS DEPEND_TARGETS)
-            append_boost_targets_recursively(${DEPEND_TARGET})
-        endforeach()
-    endmacro()
-
-    append_boost_targets_recursively("Boost::asio")
-    append_boost_targets_recursively("Boost::beast")
-    append_boost_targets_recursively("Boost::coroutine")
-    append_boost_targets_recursively("Boost::headers")
-    append_boost_targets_recursively("Boost::url")
-
-    list(REMOVE_DUPLICATES OPENGEMINI_EXPORT_BOOST_TARGETS)
-
-    foreach(TARGET_NAME IN LISTS OPENGEMINI_EXPORT_BOOST_TARGETS)
-        get_property(TARGET_INCLUDE_DIR TARGET ${TARGET_NAME} PROPERTY INTERFACE_INCLUDE_DIRECTORIES)
-        install(
-            DIRECTORY   ${TARGET_INCLUDE_DIR}
-            DESTINATION ${CMAKE_INSTALL_PREFIX}
-        )
-    endforeach()
-
-    install(
-        TARGETS     ${OPENGEMINI_EXPORT_BOOST_TARGETS}
-        EXPORT      ${PROJECT_NAME}Targets
-    )
+    set(OPENGEMINI_BOOST_HEADER_TARGETS "Boost::asio;Boost::beast;Boost::functional")
 endif()

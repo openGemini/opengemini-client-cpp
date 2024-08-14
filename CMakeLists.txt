@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.12)
 
 include(${CMAKE_CURRENT_LIST_DIR}/cmake/util/version.cmake)
 get_version_from_source(OPENGEMINI_PROJECT_VERSION)
@@ -33,15 +33,43 @@ set(CMAKE_CXX_EXTENSIONS        OFF)
 set(FETCHCONTENT_QUIET          OFF)
 set(BUILD_SHARED_LIBS           ${OPENGEMINI_BUILD_SHARED_LIBS})
 
+if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+    message(STATUS "OpenGeminiCxx is the top level project.")
+    set(OPENGEMINI_IS_TOP_LEVEL_PROJECT ON)
+endif()
 set(OPENGEMINI_COMPILE_DEFINITIONS "")
 
 option(OPENGEMINI_BUILD_SHARED_LIBS      "Build shared libraries instead of static ones. \
-Only has effect if option OPENGEMINI_BUILD_HEADER_ONLY_LIBS is OFF"                                OFF)
-option(OPENGEMINI_BUILD_HEADER_ONLY_LIBS "Build header-only libraries"                             OFF)
-option(OPENGEMINI_BUILD_TESTING          "Build unit tests (GoogleTest required)"                  OFF)
-option(OPENGEMINI_BUILD_EXAMPLE          "Build examples"                                          OFF)
-option(OPENGEMINI_BUILD_DOCUMENTATION    "Build API documentation (Doxygen required)"              OFF)
-option(OPENGEMINI_ENABLE_SSL_SUPPORT     "Enable OpenSSL support for using TLS (OpenSSL required)" OFF)
+Only has effect if option <OPENGEMINI_BUILD_HEADER_ONLY_LIBS> is OFF"                                  OFF)
+option(OPENGEMINI_BUILD_HEADER_ONLY_LIBS "Build header-only libraries"                                 OFF)
+option(OPENGEMINI_BUILD_TESTING          "Build unit tests (GoogleTest required)"                      OFF)
+option(OPENGEMINI_BUILD_EXAMPLE          "Build examples"                                              OFF)
+option(OPENGEMINI_BUILD_DOCUMENTATION    "Build API documentation (Doxygen required)"                  OFF)
+option(OPENGEMINI_ENABLE_SSL_SUPPORT     "Enable OpenSSL support for using TLS (OpenSSL required)"     OFF)
+
+set(_OPENGEMINI_GENERATE_INSTALL_TARGET ${OPENGEMINI_IS_TOP_LEVEL_PROJECT})
+if(OPENGEMINI_USE_FETCHCONTENT)
+    set(_OPENGEMINI_GENERATE_INSTALL_TARGET OFF)
+endif()
+option(OPENGEMINI_GENERATE_INSTALL_TARGET "Generate the install target" ${_OPENGEMINI_GENERATE_INSTALL_TARGET})
+unset(_OPENGEMINI_GENERATE_INSTALL_TARGET)
+
+set(_OPENGEMINI_USE_FETCHCONTENT OFF)
+if(NOT OPENGEMINI_IS_TOP_LEVEL_PROJECT)
+    set(_OPENGEMINI_USE_FETCHCONTENT ON)
+endif()
+option(OPENGEMINI_USE_FETCHCONTENT "Automatically using FetchContent if dependencies not found" ${_OPENGEMINI_USE_FETCHCONTENT})
+unset(_OPENGEMINI_USE_FETCHCONTENT)
+
+if(OPENGEMINI_USE_FETCHCONTENT AND OPENGEMINI_GENERATE_INSTALL_TARGET)
+    message(FATAL_ERROR "Option <OPENGEMINI_USE_FETCHCONTENT> and <OPENGEMINI_GENERATE_INSTALL_TARGET> \
+                         should not be set to ON at the same time. Consider setting one of them to OFF.")
+endif()
+
+set(OPENGEMINI_FIND_PACKAGE_REQUIRED "REQUIRED")
+if(OPENGEMINI_USE_FETCHCONTENT)
+    set(OPENGEMINI_FIND_PACKAGE_REQUIRED "")
+endif()
 
 include(${PROJECT_SOURCE_DIR}/cmake/deps/boost.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/deps/fmt.cmake)

@@ -21,7 +21,7 @@ set(OPENGEMINI_ENABLE_SSL_SUPPORT @OPENGEMINI_ENABLE_SSL_SUPPORT@)
 include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
 
 include(CMakeFindDependencyMacro)
-find_dependency(Boost REQUIRED COMPONENTS coroutine url)
+find_dependency(Boost REQUIRED COMPONENTS headers coroutine serialization url)
 find_dependency(fmt REQUIRED)
 find_dependency(nlohmann_json REQUIRED)
 
