@@ -75,11 +75,6 @@ int main(int argc, char** argv)
     {
         // Performs a write request which will fail.
         try {
-            opengemini::QueryResult result = client.Query({
-                "ExampleDatabase",
-                {}, // Passing an empty <command> is not allowed
-            });
-
             client.Write("ExampleDatabase",
                          {
                              "ExampleMeasurement",

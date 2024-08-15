@@ -16,6 +16,8 @@
 
 add_executable(ExampleSyncQuery Query.cpp)
 add_executable(ExampleSyncWrite Write.cpp)
+add_executable(ExampleSyncDatabase Database.cpp)
 
 target_link_libraries(ExampleSyncQuery PRIVATE ${PROJECT_NAME}::Client)
 target_link_libraries(ExampleSyncWrite PRIVATE ${PROJECT_NAME}::Client)
+target_link_libraries(ExampleSyncDatabase PRIVATE ${PROJECT_NAME}::Client)
