@@ -43,6 +43,9 @@ OpenGemini 是一款云原生分布式时序数据库。获取更多信息，请
 
 
 ## 与项目集成
+
+> 您可以通过`examples/integration`目录查看完整的示例工程。
+
 ### CMake FetchContent
 我们推荐使用CMake [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) 来将OpenGeminiCxx集成到您的项目中。
 
@@ -81,7 +84,7 @@ target_link_libraries(YourApp PRIVATE OpenGeminiCxx::Client)
 ```
 
 ### Header-Only
-> **注意：** 尽管OpenGeminiCxx可以当作纯头文件引用，但我们仍建议使用预编译好的版本以减少构建时间。
+> **注意：** 尽管OpenGeminiCxx可以作为纯头文件引用，但我们仍建议使用预编译好的版本以减少构建时间。
 
 下载[OpenGeminiCxx](https://github.com/openGemini/opengemini-client-cpp/releases)，然后将`/path/to/opengemini-client-cpp/include`添加至工程的包含路径中。
 
@@ -91,7 +94,7 @@ target_link_libraries(YourApp PRIVATE OpenGeminiCxx::Client)
 ```
 
 ## 快速上手
-下列示例代码简单演示了这个库的一些主要特性，您可以通过`examples`目录查看更多的示例代码。
+> 下列示例代码简单演示了这个库的一些主要特性，您可以通过`examples/usage`目录查看更多的示例代码。
 ### 从服务端查询数据
 ```cpp
 #include <iostream>
