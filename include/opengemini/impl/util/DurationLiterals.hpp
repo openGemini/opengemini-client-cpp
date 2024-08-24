@@ -19,36 +19,29 @@
 
 #include <string>
 
-#include "opengemini/impl/util/Preprocessor.hpp"
-
 namespace opengemini::duration_literals {
 
-inline OPENGEMINI_CONSTEVAL_SINCE_CXX20 std::string
-operator"" _second(unsigned long long int second)
+inline std::string operator"" _second(unsigned long long int second)
 {
     return std::to_string(second) + "s";
 }
 
-inline OPENGEMINI_CONSTEVAL_SINCE_CXX20 std::string
-operator"" _minute(unsigned long long int minute)
+inline std::string operator"" _minute(unsigned long long int minute)
 {
     return std::to_string(minute) + "m";
 }
 
-inline OPENGEMINI_CONSTEVAL_SINCE_CXX20 std::string
-operator"" _hour(unsigned long long int hour)
+inline std::string operator"" _hour(unsigned long long int hour)
 {
     return std::to_string(hour) + "h";
 }
 
-inline OPENGEMINI_CONSTEVAL_SINCE_CXX20 std::string
-operator"" _day(unsigned long long int day)
+inline std::string operator"" _day(unsigned long long int day)
 {
     return std::to_string(day) + "d";
 }
 
-inline OPENGEMINI_CONSTEVAL_SINCE_CXX20 std::string
-operator"" _week(unsigned long long int week)
+inline std::string operator"" _week(unsigned long long int week)
 {
     return std::to_string(week) + "w";
 }

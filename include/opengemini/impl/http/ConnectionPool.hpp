@@ -40,9 +40,7 @@ struct Connection {
     bool ShouldRetry(boost::beast::error_code& error,
                      std::string_view          what) const;
 
-#if __cplusplus < 202002L
     Connection(Stream _stream, bool _used);
-#endif // (__cplusplus < 202002L)
 };
 
 template<typename DERIVED, typename STREAM>

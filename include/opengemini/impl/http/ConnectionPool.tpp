@@ -20,13 +20,11 @@
 
 namespace opengemini::impl::http {
 
-#if __cplusplus < 202002L
 template<typename STREAM>
 Connection<STREAM>::Connection(Stream _stream, bool _used) :
     stream(std::move(_stream)),
     used(_used)
 { }
-#endif // (__cplusplus < 202002L)
 
 template<typename STREAM>
 bool Connection<STREAM>::ShouldRetry(boost::beast::error_code& error,
