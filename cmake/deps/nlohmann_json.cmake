@@ -17,14 +17,15 @@
 include_guard()
 include(FetchContent)
 
-find_package(nlohmann_json QUIET)
-if(NOT nlohmann_json_FOUND)
-message(STATUS "Download nlohmann json and build it from source")
-set(JSON_Install ON)
-FetchContent_Declare(nlohmann_json
-    GIT_REPOSITORY https://github.com/nlohmann/json
-    GIT_TAG        v3.11.3
-    GIT_PROGRESS   TRUE
-)
-FetchContent_MakeAvailable(nlohmann_json)
+message(STATUS "Looking for Nlohmann JSON.")
+find_package(nlohmann_json ${OPENGEMINI_FIND_PACKAGE_REQUIRED})
+
+if(NOT nlohmann_json_FOUND AND OPENGEMINI_USE_FETCHCONTENT)
+    message(STATUS "Nlohmann JSON not found, try using FetchContent instead.")
+    FetchContent_Declare(nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json
+        GIT_TAG        v3.11.3
+        GIT_PROGRESS   TRUE
+    )
+    FetchContent_MakeAvailable(nlohmann_json)
 endif()
