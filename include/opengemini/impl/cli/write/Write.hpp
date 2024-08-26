@@ -12,23 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
-#define OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+#ifndef OPENGEMINI_IMPL_CLI_WRITE_WRITE_HPP
+#define OPENGEMINI_IMPL_CLI_WRITE_WRITE_HPP
 
-#include "opengemini/impl/http/IHttpClient.hpp"
-#include "opengemini/impl/lb/LoadBalancer.hpp"
+#include "opengemini/impl/cli/Functor.hpp"
+#include "opengemini/impl/util/Preprocessor.hpp"
 
 namespace opengemini::impl::cli {
 
-struct Functor {
-    http::IHttpClient& http_;
-    lb::LoadBalancer&  lb_;
+template<typename POINT_TYPE>
+struct RunWrite : public Functor {
+    void operator()(boost::asio::yield_context yield) const;
+
+    std::string db_;
+    std::string rp_;
+    POINT_TYPE  point_;
 };
 
 } // namespace opengemini::impl::cli
 
-namespace opengemini::impl {
+#include "opengemini/impl/cli/write/Write.tpp"
 
-} // namespace opengemini::impl
-
-#endif // !OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+#endif // !OPENGEMINI_IMPL_CLI_WRITE_WRITE_HPP
