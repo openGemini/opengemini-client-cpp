@@ -52,6 +52,7 @@ private:
     std::ostringstream os_;
 
     static constexpr auto ELEMENT_LF{ '\n' };
+    static constexpr auto ELEMENT_EOF{ '\0' };
     static constexpr auto ELEMENT_COMMA{ ',' };
     static constexpr auto ELEMENT_EQUAL{ '=' };
     static constexpr auto ELEMENT_SPACE{ ' ' };
@@ -63,18 +64,30 @@ private:
     static constexpr auto ELEMENT_TRUE{ 'T' };
     static constexpr auto ELEMENT_FALSE{ 'F' };
 
-    static constexpr char ESCAPE_CHARS_TAG[]{ ELEMENT_COMMA,
-                                              ELEMENT_EQUAL,
-                                              ELEMENT_SPACE };
+    static constexpr char ESCAPE_CHARS_TAG[]{
+        ELEMENT_COMMA,
+        ELEMENT_EQUAL,
+        ELEMENT_SPACE,
+        ELEMENT_EOF,
+    };
 
-    static constexpr char ESCAPE_CHARS_FIELD_KEY[]{ ELEMENT_COMMA,
-                                                    ELEMENT_EQUAL,
-                                                    ELEMENT_SPACE };
-    static constexpr char ESCAPE_CHARS_FIELD_VALUE[]{ ELEMENT_DQUOTE,
-                                                      ELEMENT_BSLASH };
+    static constexpr char ESCAPE_CHARS_FIELD_KEY[]{
+        ELEMENT_COMMA,
+        ELEMENT_EQUAL,
+        ELEMENT_SPACE,
+        ELEMENT_EOF,
+    };
+    static constexpr char ESCAPE_CHARS_FIELD_VALUE[]{
+        ELEMENT_DQUOTE,
+        ELEMENT_BSLASH,
+        ELEMENT_EOF,
+    };
 
-    static constexpr char ESCAPE_CHARS_MEASUREMENT[]{ ELEMENT_COMMA,
-                                                      ELEMENT_SPACE };
+    static constexpr char ESCAPE_CHARS_MEASUREMENT[]{
+        ELEMENT_COMMA,
+        ELEMENT_SPACE,
+        ELEMENT_EOF,
+    };
 };
 
 } // namespace opengemini::impl::enc
