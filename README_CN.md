@@ -162,12 +162,12 @@ make install
 
 如果想要启用TLS支持，可以使用选项`OPENGEMINI_ENABLE_SSL_SUPPORT`进行配置：
 ```bash
-cmake -DOPENGEMINI_ENABLE_SSL_SUPPORT=ON .. 
+cmake -DOPENGEMINI_ENABLE_SSL_SUPPORT=ON ..
 ```
 
 也可以通过选项`OPENGEMINI_ENABLE_SSL_SUPPORT`来生成单元测试：
 ```bash
-cmake -DOPENGEMINI_BUILD_TESTING=ON .. 
+cmake -DOPENGEMINI_BUILD_TESTING=ON ..
 ```
 
 关于所有配置选项的详细信息，参见[CMake选项](#CMake选项)
