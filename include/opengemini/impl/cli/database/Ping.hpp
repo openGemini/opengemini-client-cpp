@@ -12,23 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
-#define OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+#ifndef OPENGEMINI_IMPL_CLI_DATABASE_PING_HPP
+#define OPENGEMINI_IMPL_CLI_DATABASE_PING_HPP
 
-#include "opengemini/impl/http/IHttpClient.hpp"
-#include "opengemini/impl/lb/LoadBalancer.hpp"
+#include "opengemini/impl/cli/Functor.hpp"
+#include "opengemini/impl/util/Preprocessor.hpp"
 
 namespace opengemini::impl::cli {
 
-struct Functor {
-    http::IHttpClient& http_;
-    lb::LoadBalancer&  lb_;
+struct RunPing : public Functor {
+    std::string operator()(boost::asio::yield_context yield) const;
+
+    std::size_t index_;
 };
 
 } // namespace opengemini::impl::cli
 
-namespace opengemini::impl {
+#ifndef OPENGEMINI_SEPARATE_COMPILATION
+#    include "opengemini/impl/cli/database/Ping.cpp"
+#endif // !OPENGEMINI_SEPARATE_COMPILATION
 
-} // namespace opengemini::impl
-
-#endif // !OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+#endif // !OPENGEMINI_IMPL_CLI_DATABASE_PING_HPP
