@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opengemini/impl/cli/Functor.hpp"
+#include "opengemini/impl/cli/database/Database.hpp"
 
-#include "opengemini/impl/util/Preprocessor.hpp"
+#include "opengemini/Exception.hpp"
+#include "opengemini/impl/cli/query/Query.hpp"
 
-namespace opengemini::impl {
+namespace opengemini::impl::cli {
 
 OPENGEMINI_INLINE_SPECIFIER
-void ClientImpl::Functor::RunCreateDatabase::operator()(
-    boost::asio::yield_context yield) const
+void RunCreateDatabase::operator()(boost::asio::yield_context yield) const
 {
     if (db_.empty()) {
         throw Exception(errc::LogicErrors::InvalidArgument,
@@ -41,7 +41,8 @@ void ClientImpl::Functor::RunCreateDatabase::operator()(
             name.empty() ? "" : fmt::format(NAME, name));
     }
 
-    auto queryResult = RunQueryPost{ impl_, { {}, std::move(cmd) } }(yield);
+    auto queryResult =
+        RunQueryPost{ { http_, lb_ }, { {}, std::move(cmd) } }(yield);
     if (auto error = free::HasError(queryResult); error) {
         throw Exception(errc::ServerErrors::ErrorResult,
                         fmt::format("Create database failed: {}", *error));
@@ -49,10 +50,10 @@ void ClientImpl::Functor::RunCreateDatabase::operator()(
 }
 
 OPENGEMINI_INLINE_SPECIFIER
-std::vector<std::string> ClientImpl::Functor::RunShowDatabase::operator()(
-    boost::asio::yield_context yield) const
+std::vector<std::string>
+RunShowDatabase::operator()(boost::asio::yield_context yield) const
 {
-    auto queryResult = RunQueryGet{ impl_, { {}, SHOW_DB } }(yield);
+    auto queryResult = RunQueryGet{ { http_, lb_ }, { {}, SHOW_DB } }(yield);
     if (auto error = free::HasError(queryResult); error) {
         throw Exception(errc::ServerErrors::ErrorResult,
                         fmt::format("Show database failed: {}", *error));
@@ -74,20 +75,19 @@ std::vector<std::string> ClientImpl::Functor::RunShowDatabase::operator()(
 }
 
 OPENGEMINI_INLINE_SPECIFIER
-void ClientImpl::Functor::RunDropDatabase::operator()(
-    boost::asio::yield_context yield) const
+void RunDropDatabase::operator()(boost::asio::yield_context yield) const
 {
     if (db_.empty()) {
         throw Exception(errc::LogicErrors::InvalidArgument,
                         "Database name can not be empty");
     }
 
-    auto queryResult =
-        RunQueryPost{ impl_, { {}, fmt::format(DROP_DB, db_) } }(yield);
+    auto queryResult = RunQueryPost{ { http_, lb_ },
+                                     { {}, fmt::format(DROP_DB, db_) } }(yield);
     if (auto error = free::HasError(queryResult); error) {
         throw Exception(errc::ServerErrors::ErrorResult,
                         fmt::format("Drop database failed: {}", *error));
     }
 }
 
-} // namespace opengemini::impl
+} // namespace opengemini::impl::cli

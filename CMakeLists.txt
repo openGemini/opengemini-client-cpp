@@ -101,7 +101,7 @@ endif()
 
 if(OPENGEMINI_BUILD_EXAMPLE)
     message(STATUS "Generating examples")
-    add_subdirectory(examples)
+    add_subdirectory(examples/usage)
 endif()
 
 if (OPENGEMINI_BUILD_DOCUMENTATION)

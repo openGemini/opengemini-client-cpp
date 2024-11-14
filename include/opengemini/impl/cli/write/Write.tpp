@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opengemini/impl/cli/Functor.hpp"
+#include "opengemini/impl/cli/write/Write.hpp"
 
 #include <boost/url.hpp>
 
@@ -20,11 +20,10 @@
 #include "opengemini/impl/comm/UrlTargets.hpp"
 #include "opengemini/impl/enc/LineProtocolEncoder.hpp"
 
-namespace opengemini::impl {
+namespace opengemini::impl::cli {
 
 template<typename POINT_TYPE>
-void ClientImpl::Functor::RunWrite<POINT_TYPE>::operator()(
-    boost::asio::yield_context yield) const
+void RunWrite<POINT_TYPE>::operator()(boost::asio::yield_context yield) const
 {
     if (db_.empty()) {
         throw Exception(errc::LogicErrors::InvalidArgument,
@@ -37,10 +36,10 @@ void ClientImpl::Functor::RunWrite<POINT_TYPE>::operator()(
     boost::url target(url::WRITE);
     target.set_query(fmt::format("db={}&rp={}", db_, rp_));
 
-    auto rsp = impl_->http_->Post(impl_->lb_->PickAvailableServer(),
-                                  target.buffer(),
-                                  std::move(content),
-                                  yield);
+    auto rsp = http_.Post(lb_.PickAvailableServer(),
+                          target.buffer(),
+                          std::move(content),
+                          yield);
     if (rsp.result() != http::Status::no_content) {
         throw Exception(errc::ServerErrors::UnexpectedStatusCode,
                         fmt::format("Received code: {}, body:{}",
@@ -49,4 +48,4 @@ void ClientImpl::Functor::RunWrite<POINT_TYPE>::operator()(
     }
 }
 
-} // namespace opengemini::impl
+} // namespace opengemini::impl::cli

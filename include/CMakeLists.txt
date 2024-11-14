@@ -44,6 +44,10 @@ else()
         opengemini/impl/ClientImpl.cpp
         opengemini/impl/ClientConfigBuilder.cpp
         opengemini/impl/ErrorCode.cpp
+        opengemini/impl/cli/database/Database.cpp
+        opengemini/impl/cli/database/Ping.cpp
+        opengemini/impl/cli/policy/RetentionPolicy.cpp
+        opengemini/impl/cli/query/Query.cpp
         opengemini/impl/comm/Context.cpp
         opengemini/impl/enc/LineProtocolEncoder.cpp
         opengemini/impl/http/IHttpClient.cpp

@@ -12,23 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
-#define OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+#include <opengemini/Client.hpp>
 
-#include "opengemini/impl/http/IHttpClient.hpp"
-#include "opengemini/impl/lb/LoadBalancer.hpp"
+int main(int argc, char** argv)
+{
+    opengemini::Client client{ {} };
 
-namespace opengemini::impl::cli {
-
-struct Functor {
-    http::IHttpClient& http_;
-    lb::LoadBalancer&  lb_;
-};
-
-} // namespace opengemini::impl::cli
-
-namespace opengemini::impl {
-
-} // namespace opengemini::impl
-
-#endif // !OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+    return 0;
+}

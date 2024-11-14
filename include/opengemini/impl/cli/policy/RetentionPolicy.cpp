@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opengemini/impl/cli/Functor.hpp"
+#include "opengemini/impl/cli/policy/RetentionPolicy.hpp"
 
-#include "opengemini/impl/util/Preprocessor.hpp"
+#include "opengemini/Exception.hpp"
+#include "opengemini/impl/cli/query/Query.hpp"
 
-namespace opengemini::impl {
+namespace opengemini::impl::cli {
 
 OPENGEMINI_INLINE_SPECIFIER
-void ClientImpl::Functor::RunCreateRetentionPolicy::operator()(
+void RunCreateRetentionPolicy::operator()(
     boost::asio::yield_context yield) const
 {
     const auto& [name, duration, shardDur, indexDur] = rpConfig_;
@@ -38,7 +39,8 @@ void ClientImpl::Functor::RunCreateRetentionPolicy::operator()(
                     indexDur.empty() ? "" : fmt::format(INDEX_DUR, indexDur),
                     isDefault_ ? DEFAULT : "");
 
-    auto queryResult = RunQueryPost{ impl_, { {}, std::move(cmd) } }(yield);
+    auto queryResult =
+        RunQueryPost{ { http_, lb_ }, { {}, std::move(cmd) } }(yield);
     if (auto error = free::HasError(queryResult); error) {
         throw Exception(
             errc::ServerErrors::ErrorResult,
@@ -48,15 +50,14 @@ void ClientImpl::Functor::RunCreateRetentionPolicy::operator()(
 
 OPENGEMINI_INLINE_SPECIFIER
 std::vector<RetentionPolicy>
-ClientImpl::Functor::RunShowRetentionPolicies::operator()(
-    boost::asio::yield_context yield) const
+RunShowRetentionPolicies::operator()(boost::asio::yield_context yield) const
 {
     if (db_.empty()) {
         throw Exception(errc::LogicErrors::InvalidArgument,
                         "Database name can not be empty");
     }
 
-    auto queryResult = RunQueryGet{ impl_, { db_, SHOW_RP } }(yield);
+    auto queryResult = RunQueryGet{ { http_, lb_ }, { db_, SHOW_RP } }(yield);
     if (auto error = free::HasError(queryResult); error) {
         throw Exception(
             errc::ServerErrors::ErrorResult,
@@ -96,8 +97,7 @@ ClientImpl::Functor::RunShowRetentionPolicies::operator()(
 }
 
 OPENGEMINI_INLINE_SPECIFIER
-void ClientImpl::Functor::RunDropRetentionPolicy::operator()(
-    boost::asio::yield_context yield) const
+void RunDropRetentionPolicy::operator()(boost::asio::yield_context yield) const
 {
     if (db_.empty() || rp_.empty()) {
         throw Exception(
@@ -106,7 +106,8 @@ void ClientImpl::Functor::RunDropRetentionPolicy::operator()(
     }
 
     auto queryResult =
-        RunQueryPost{ impl_, { {}, fmt::format(DROP_RP, rp_, db_) } }(yield);
+        RunQueryPost{ { http_, lb_ },
+                      { {}, fmt::format(DROP_RP, rp_, db_) } }(yield);
     if (auto error = free::HasError(queryResult); error) {
         throw Exception(
             errc::ServerErrors::ErrorResult,
@@ -114,4 +115,4 @@ void ClientImpl::Functor::RunDropRetentionPolicy::operator()(
     }
 }
 
-} // namespace opengemini::impl
+} // namespace opengemini::impl::cli

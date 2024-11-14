@@ -12,23 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
-#define OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+#include <iostream>
 
-#include "opengemini/impl/http/IHttpClient.hpp"
-#include "opengemini/impl/lb/LoadBalancer.hpp"
+#include <opengemini/Client.hpp>
+#include <opengemini/ClientConfigBuilder.hpp>
 
-namespace opengemini::impl::cli {
+int main(int argc, char** argv)
+{
+    opengemini::Client client{ opengemini::ClientConfigBuilder()
+                                   .AppendAddress({ "127.0.0.1", 8086 })
+                                   .Finalize() };
 
-struct Functor {
-    http::IHttpClient& http_;
-    lb::LoadBalancer&  lb_;
-};
+    std::cout << "OpenGemini server's version: " << client.Ping(0) << std::endl;
 
-} // namespace opengemini::impl::cli
-
-namespace opengemini::impl {
-
-} // namespace opengemini::impl
-
-#endif // !OPENGEMINI_IMPL_CLI_FUNCTOR_HPP
+    return 0;
+}

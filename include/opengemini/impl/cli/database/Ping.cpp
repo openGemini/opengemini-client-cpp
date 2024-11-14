@@ -12,19 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "opengemini/impl/cli/Functor.hpp"
+#include "opengemini/impl/cli/database/Ping.hpp"
 
+#include "opengemini/Exception.hpp"
 #include "opengemini/impl/comm/UrlTargets.hpp"
-#include "opengemini/impl/util/Preprocessor.hpp"
 
-namespace opengemini::impl {
+namespace opengemini::impl::cli {
 
 OPENGEMINI_INLINE_SPECIFIER
-std::string
-ClientImpl::Functor::RunPing::operator()(boost::asio::yield_context yield) const
+std::string RunPing::operator()(boost::asio::yield_context yield) const
 {
-    auto rsp =
-        impl_->http_->Get(impl_->lb_->PickServer(index_), url::PING, yield);
+    auto rsp = http_.Get(lb_.PickServer(index_), url::PING, yield);
 
     if (rsp.result() != http::Status::no_content) {
         throw Exception(errc::ServerErrors::UnexpectedStatusCode,
@@ -37,4 +35,4 @@ ClientImpl::Functor::RunPing::operator()(boost::asio::yield_context yield) const
     return version != rsp.end() ? version->value() : "Unknown";
 }
 
-} // namespace opengemini::impl
+} // namespace opengemini::impl::cli
