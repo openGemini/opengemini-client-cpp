@@ -94,9 +94,6 @@ private:
     void Spawn(FUNCTION&& func, COMPLETION_TOKEN&& token);
 
 private:
-    struct Functor;
-
-private:
     Context                            ctx_;
     std::shared_ptr<http::IHttpClient> http_;
     std::shared_ptr<lb::LoadBalancer>  lb_;

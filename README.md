@@ -42,6 +42,9 @@ OpenGemini is a cloud-native distributed time series database, find more informa
     - [GoogleTest](https://github.com/google/googletest) (*optional*, for building unit tests)
 
 ## Integration
+
+> For a whole example project, please check out `examples/integration` directory.
+
 ### CMake FetchContent
 It is recommended to integrate with OpenGeminiCxx using CMake's [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html).
 
@@ -90,7 +93,7 @@ You may also need to link against any necessary dependencies to your program man
 ```
 
 ## Quick Start
-Below are a few examples show how to use some of the main features of the library. For more example code, please check out `examples` directory;
+> Below are a few examples show how to use some of the main features of the library. For more example code, please check out `examples/usage` directory.
 ### Query data from the server
 ```cpp
 #include <iostream>
