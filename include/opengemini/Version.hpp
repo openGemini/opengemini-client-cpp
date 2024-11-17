@@ -32,7 +32,7 @@
 /// \~Chinese
 /// @brief 库次版本号。
 ///
-#define OPENGEMINI_VERSION_MINOR 2
+#define OPENGEMINI_VERSION_MINOR 1
 
 ///
 /// \~English
@@ -41,6 +41,6 @@
 /// \~Chinese
 /// @brief 库修正版本号。
 ///
-#define OPENGEMINI_VERSION_PATCH 0
+#define OPENGEMINI_VERSION_PATCH 1
 
 #endif // !OPENGEMINI_VERSION_HPP
