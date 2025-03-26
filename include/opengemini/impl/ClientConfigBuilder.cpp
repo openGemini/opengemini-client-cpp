@@ -45,9 +45,7 @@ ClientConfigBuilder&
 ClientConfigBuilder::AuthCredential(const std::string& username,
                                     const std::string& password)
 {
-    struct AuthCredential cred {
-        username, password
-    };
+    struct AuthCredential cred{ username, password };
     conf_.authConfig.emplace(std::move(cred));
     return *this;
 }
@@ -64,9 +62,7 @@ ClientConfigBuilder&
 ClientConfigBuilder::BatchConfig(std::chrono::milliseconds interval,
                                  std::size_t               size)
 {
-    struct BatchConfig batch {
-        interval, size
-    };
+    struct BatchConfig batch{ interval, size };
     conf_.batchConfig.emplace(std::move(batch));
     return *this;
 }
