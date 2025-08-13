@@ -1,6 +1,9 @@
 # opengemini-client-cpp
 
-![License](https://img.shields.io/badge/license-Apache2.0-green) ![Language](https://img.shields.io/badge/language-C++-blue.svg) [![Version](https://img.shields.io/github/v/tag/opengemini/opengemini-client-cpp?label=release&color=blue)](https://github.com/opengemini/opengemini-client-cpp/releases)
+![License](https://img.shields.io/badge/license-Apache2.0-green)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11011/badge)](https://www.bestpractices.dev/projects/11011)
+![Language](https://img.shields.io/badge/language-C++-blue.svg)
+[![Version](https://img.shields.io/github/v/tag/opengemini/opengemini-client-cpp?label=release&color=blue)](https://github.com/opengemini/opengemini-client-cpp/releases)
 
 > ⚠️  **This repository is in pre-alpha stage, so not yet feature-complete. And the API has not been frozen, it may be changed on the course of the development.**
 
