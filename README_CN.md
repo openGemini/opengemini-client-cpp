@@ -1,6 +1,9 @@
 # opengemini-client-cpp
 
-![License](https://img.shields.io/badge/开源许可证-Apache2.0-green) ![language](https://img.shields.io/badge/语言-C++-blue.svg) [![version](https://img.shields.io/github/v/tag/opengemini/opengemini-client-cpp?label=发行版本&color=blue)](https://github.com/opengemini/opengemini-client-cpp/releases)
+![License](https://img.shields.io/badge/开源许可证-Apache2.0-green)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11011/badge)](https://www.bestpractices.dev/projects/11011)
+![language](https://img.shields.io/badge/语言-C++-blue.svg)
+[![version](https://img.shields.io/github/v/tag/opengemini/opengemini-client-cpp?label=发行版本&color=blue)](https://github.com/opengemini/opengemini-client-cpp/releases)
 
 > ⚠️  **当前仓库仍处于早期开发阶段，功能特性尚未完成。目前提供的API接口不是稳定版本，可能随开发进程有所调整。**
 
